@@ -40,7 +40,7 @@ transition: fade-out
 - ☁️ **Serverless Architecture**
 - 🚀 **Function as a Service (FaaS)**
 - 🧹 **Clean Architecture**
-- 💻 **Kotlin in Serverless**
+- 💻 **Kotlin on FaaS**
 - 🌱 **Spring Cloud Function**
 - 🌐 **Terraform CDK**
 - 🛠️ **Deployment**
@@ -122,9 +122,9 @@ Examples of FaaS: AWS Lambda and Azure Function
 
 ---
 
-<v-clicks>
-
 # FaaS Use-Cases
+
+<v-clicks>
 
 - **Microservice Architectures**: Small, independent functions communicate to form an application.
 
@@ -137,7 +137,7 @@ Examples of FaaS: AWS Lambda and Azure Function
 </v-clicks>
 
 <!--
-FaaS provides an efficient and flexible way to create specific functionalities without the weight of managing the underlying infrastructure.
+FaaS provides an efficient and flexible way to create specific functionalities without the weight of managing the underlying infrastructure. The applications of serverless are diverse. From developing microservices, creating RESTful backends, managing stream processing, handling real-time file uploads, and conducting data processing, serverless provides a flexible and developer-friendly platform to build varied solutions
 -->
 
 ---
@@ -147,6 +147,112 @@ class: flex flex-col justify-center items-center h-[100vh] space-y-4
 # FaaS on as-used basis
 
 <img src="/FaaSAutoscaling.png" alt="FaaSAutoscaling" style="width: 60%; height: auto;" />
+
+<!--
+Example from online shop (bol.com) about season reparation for each and every application
+-->
+
+---
+
+# FaaS on as-used basis - Dentist clinic use case
+
+<img src="/FaaSAutoscaling.png" alt="FaaSAutoscaling" style="width: 60%; height: auto;" />
+
+<!--
+Example from online shop (bol.com) about season reparation for each and every application
+-->
+
+---
+
+# Bridging to Clean Architecture
+
+Scaling and flexibility are the hallmarks of FaaS, but how do we ensure our architecture remains cloud-agnostic and maintainable as it grows?
+
+<v-clicks>
+
+- **Separation of Concerns**: Different aspects of software development (use case business rules, domain logic, integration logic) are isolated from each other.
+
+- **Independent Layers**: Changes in one layer (like switching cloud providers) should not affect other layers.
+
+- **Testability**: Because of the clear boundaries and interfaces between layers, testing becomes straightforward.
+
+- **Minimizing Cloud Lock-in**: Easily switch between AWS, Azure, or others, with business logic unaware of the underlying cloud provider.
+
+</v-clicks>
+
+<!--
+
+Clean Architecture allows us to create a system that is:
+- Independent of the UI and other application api entry points like Rest and GraphQL
+- Independent of the database providers
+- Independent of any external providers
+- Testable
+
+In the context of FaaS and serverless, it provides a pathway to ensure that our functions are not tightly bound to a specific cloud provider's APIs or services, ensuring that our application logic remains versatile, testable, and scalable, while also being easy to migrate between different platforms.
+
+-->
+
+---
+class: flex flex-col justify-center items-center h-[100vh] space-y-4
+---
+
+# Clean Architecture
+
+<img src="/FaaSAutoscaling.png" alt="Clean Architecture" style="width: 60%; height: auto;" />
+
+
+---
+# Clean Architecture - example with gradle modules
+
+
+---
+
+# Kotlin on FaaS: A Powerful Duo
+
+
+<v-clicks>
+
+- **Multi-Platform Compatibility**: Run on any FaaS supporting Java or JS, such as AWS Lambda and Azure Functions.
+
+- **Bypass Java Version Constraints**: Utilize the newest features and advancements by employing the latest Kotlin versions, circumventing limitations imposed by cloud providers' supported Java versions (currently Java 17 on AWS and Azure).
+
+- **Infrastructure as Code with Kotlin**: Employ Terraform CDK for multi-cloud setups, or AWS CDK, while keeping the concise, expressive, and safe syntax of Kotlin.
+
+- **Unified with Kotlin**: Develop applications, manage infrastructure, and automate builds, all utilizing Kotlin's streamlined syntax and robust feature set.
+
+</v-clicks>
+
+<!--
+
+Kotlin not only stands out due to its null safety and expressive syntax but also seamlessly works with serverless architectures. With its compatibility with various FaaS platforms and the ability to employ the latest Java versions, it provides a future-proof approach to crafting serverless applications. This is further bolstered by its capability to run natively and in JS environments, expanding use cases and ensuring your serverless applications can run anywhere and everywhere.
+- Kotlin app
+- Kotlin Infra
+- Kotlin Gradle DSL
+
+-->
+
+---
+# Spring Cloud Function in a Nutshell
+
+<v-clicks>
+
+- **Adaptable to Environments**: Facilitates execution in multiple environments - local, cloud, or FaaS, without code alterations.
+
+- **Cloud Agnosticism**: Enables applications to run across different FaaS providers like AWS Lambda, Azure Functions, etc.
+
+- **Dependency Injection**: Harmonizes with Spring's robust dependency injection, allowing smooth integration with Clean Architecture.
+
+- **Extensive Ecosystem**: Leverages the vast Spring ecosystem, unlocking a wide array of functionalities and extensibilities for your serverless applications.
+
+- **Unified API**: Offers a consistent programming model across serverless providers.
+
+</v-clicks>
+
+---
+# Spring Cloud Function code example
+
+
+---
 
 
 ---
