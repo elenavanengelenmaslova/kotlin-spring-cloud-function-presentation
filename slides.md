@@ -121,6 +121,18 @@ Examples of FaaS: AWS Lambda and Azure Function
 -->
 
 ---
+class: flex flex-col justify-center items-center h-[100vh] space-y-4
+---
+
+# FaaS on as-used basis
+
+<img src="/FaaSAutoscaling.png" alt="FaaSAutoscaling" style="width: 60%; height: auto;" />
+
+<!--
+Example from online shop (bol.com) about season reparation for each and every application
+-->
+
+---
 
 # FaaS Use-Cases
 
@@ -140,22 +152,12 @@ Examples of FaaS: AWS Lambda and Azure Function
 FaaS provides an efficient and flexible way to create specific functionalities without the weight of managing the underlying infrastructure. The applications of serverless are diverse. From developing microservices, creating RESTful backends, managing stream processing, handling real-time file uploads, and conducting data processing, serverless provides a flexible and developer-friendly platform to build varied solutions
 -->
 
----
-class: flex flex-col justify-center items-center h-[100vh] space-y-4
----
-
-# FaaS on as-used basis
-
-<img src="/FaaSAutoscaling.png" alt="FaaSAutoscaling" style="width: 60%; height: auto;" />
-
-<!--
-Example from online shop (bol.com) about season reparation for each and every application
--->
 
 ---
 
-# FaaS on as-used basis - Dentist clinic use case
+# Dentist clinic use case
 
+TODO
 <img src="/FaaSAutoscaling.png" alt="FaaSAutoscaling" style="width: 60%; height: auto;" />
 
 <!--
@@ -202,6 +204,7 @@ class: flex flex-col justify-center items-center h-[100vh] space-y-4
 
 
 ---
+
 # Clean Architecture - example with gradle modules
 
 
@@ -232,6 +235,7 @@ Kotlin not only stands out due to its null safety and expressive syntax but also
 -->
 
 ---
+
 # Spring Cloud Function in a Nutshell
 
 <v-clicks>
@@ -242,13 +246,14 @@ Kotlin not only stands out due to its null safety and expressive syntax but also
 
 - **Dependency Injection**: Harmonizes with Spring's robust dependency injection, allowing smooth integration with Clean Architecture.
 
-- **Extensive Ecosystem**: Leverages the vast Spring ecosystem, unlocking a wide array of functionalities and extensibilities for your serverless applications.
+- **Extensive Ecosystem**: Leverages the vast Spring ecosystem, unlocking a wide array of functionalities and extensibility for your serverless applications.
 
 - **Unified API**: Offers a consistent programming model across serverless providers.
 
 </v-clicks>
 
 ---
+
 # Spring Cloud Function code example
 
 
