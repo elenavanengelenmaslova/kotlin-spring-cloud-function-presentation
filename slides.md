@@ -37,10 +37,10 @@ transition: fade-out
 # Overview
 
 - 💡 **Introduction**
-- ☁️ **Serverless Architecture**
+- ☁️ **Serverless Cloud**
 - 🚀 **Function as a Service (FaaS)**
-- 🧹 **Clean Architecture**
 - 💻 **Kotlin on FaaS**
+- 🧹 **Clean Architecture**
 - 🌱 **Spring Cloud Function**
 - 🌐 **Terraform CDK**
 - 🛠️ **Deployment**
@@ -152,6 +152,28 @@ Example from online shop (bol.com) about season reparation for each and every ap
 FaaS provides an efficient and flexible way to create specific functionalities without the weight of managing the underlying infrastructure. The applications of serverless are diverse. From developing microservices, creating RESTful backends, managing stream processing, handling real-time file uploads, and conducting data processing, serverless provides a flexible and developer-friendly platform to build varied solutions
 -->
 
+# Kotlin on FaaS: A Powerful Duo
+
+<v-clicks>
+
+- **Multi-Platform Compatibility**: Run on any FaaS supporting Java or JS, such as AWS Lambda and Azure Functions.
+
+- **Bypass Java Version Constraints**: Utilize the newest features and advancements by employing the latest Kotlin versions, circumventing limitations imposed by cloud providers' supported Java versions (currently Java 17 on AWS and Azure).
+
+- **Infrastructure as Code with Kotlin**: Employ Terraform CDK for multi-cloud setups, or AWS CDK, while keeping the concise, expressive, and safe syntax of Kotlin.
+
+- **Unified with Kotlin**: Develop applications, manage infrastructure, and automate builds, all utilizing Kotlin's streamlined syntax and robust feature set.
+
+</v-clicks>
+
+<!--
+
+Kotlin not only stands out due to its null safety and expressive syntax but also seamlessly works with serverless architectures. With its compatibility with various FaaS platforms and the ability to employ the latest Java versions, it provides a future-proof approach to crafting serverless applications. This is further bolstered by its capability to run natively and in JS environments, expanding use cases and ensuring your serverless applications can run anywhere and everywhere.
+- Kotlin Function implementation
+- Kotlin Infrastructure as code
+- Kotlin Gradle DSL for builds
+
+-->
 
 ---
 
@@ -240,29 +262,6 @@ dependencies {
 ---
 
 
-# Kotlin on FaaS: A Powerful Duo
-
-
-<v-clicks>
-
-- **Multi-Platform Compatibility**: Run on any FaaS supporting Java or JS, such as AWS Lambda and Azure Functions.
-
-- **Bypass Java Version Constraints**: Utilize the newest features and advancements by employing the latest Kotlin versions, circumventing limitations imposed by cloud providers' supported Java versions (currently Java 17 on AWS and Azure).
-
-- **Infrastructure as Code with Kotlin**: Employ Terraform CDK for multi-cloud setups, or AWS CDK, while keeping the concise, expressive, and safe syntax of Kotlin.
-
-- **Unified with Kotlin**: Develop applications, manage infrastructure, and automate builds, all utilizing Kotlin's streamlined syntax and robust feature set.
-
-</v-clicks>
-
-<!--
-
-Kotlin not only stands out due to its null safety and expressive syntax but also seamlessly works with serverless architectures. With its compatibility with various FaaS platforms and the ability to employ the latest Java versions, it provides a future-proof approach to crafting serverless applications. This is further bolstered by its capability to run natively and in JS environments, expanding use cases and ensuring your serverless applications can run anywhere and everywhere.
-- Kotlin Function implementation
-- Kotlin Infrastructure as code
-- Kotlin Gradle DSL for builds
-
--->
 
 ---
 
@@ -394,6 +393,8 @@ Deploy with Terraform
 ---
 
 # Performance Optimisations
+Is performance an issue on FaaS? Short answer is - no.
+
 If required you can configure performance optimisations such as AWS SnapStart (free) or Azure function Premium plan (costs).
 E.g. in Terrform CDK:
 
