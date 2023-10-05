@@ -155,17 +155,6 @@ FaaS provides an efficient and flexible way to create specific functionalities w
 
 ---
 
-# Dentist clinic use case
-
-TODO
-<img src="/FaaSAutoscaling.png" alt="FaaSAutoscaling" style="width: 60%; height: auto;" />
-
-<!--
-Example from online shop (bol.com) about season reparation for each and every application
--->
-
----
-
 # Bridging to Clean Architecture
 
 Scaling and flexibility are the hallmarks of FaaS, but how do we ensure our architecture remains cloud-agnostic and maintainable as it grows?
@@ -200,15 +189,56 @@ class: flex flex-col justify-center items-center h-[100vh] space-y-4
 
 # Clean Architecture
 
-<img src="/FaaSAutoscaling.png" alt="Clean Architecture" style="width: 60%; height: auto;" />
+<img src="/CleanArch.png" alt="Clean Architecture" style="width: 80%; height: auto;" />
 
 
 ---
 
-# Clean Architecture - example with gradle modules
+# Clean Architecture - with gradle modules
 
+```
+├── software/            // Holds all the application code
+│   ├── domain/
+│   ├── application/
+│   └── infra/            // Infrastructure specific code
+│       ├── aws/         
+│       └── azure/       
+│
+└── cdk/                  // Terraform CDK Kotlin code
+    ├── aws/
+    └── azure/
+```
 
+<!--
+Imagine we are build a pension administration microservice, 
+- in domain we might have Participant, ParticipantRelation, PensionFund
+- in application we have use case business logic, for example process employment, marriage, divorce, death
+- infra has integration to our cloud specific service, e.g. Azure blob storage & Service Bus or AWS S3 and Event Bridge
+- cdk has cloud specific infrastructure as code
+-->
 ---
+
+# Clean Architecture - with gradle modules
+How would the module definition look in Gradle Kotlin DSL?
+
+**settings.gradle.kts:**
+
+```kotlin
+include(":application")
+project(":application").projectDir = file("software/application")
+include(":domain")
+project(":domain").projectDir = file("software/domain")
+// ... other modules
+```
+
+**application/build.gradle.kts:**
+```kotlin
+dependencies {
+   implementation(":domain")
+}
+```
+---
+
 
 # Kotlin on FaaS: A Powerful Duo
 
@@ -228,9 +258,9 @@ class: flex flex-col justify-center items-center h-[100vh] space-y-4
 <!--
 
 Kotlin not only stands out due to its null safety and expressive syntax but also seamlessly works with serverless architectures. With its compatibility with various FaaS platforms and the ability to employ the latest Java versions, it provides a future-proof approach to crafting serverless applications. This is further bolstered by its capability to run natively and in JS environments, expanding use cases and ensuring your serverless applications can run anywhere and everywhere.
-- Kotlin app
-- Kotlin Infra
-- Kotlin Gradle DSL
+- Kotlin Function implementation
+- Kotlin Infrastructure as code
+- Kotlin Gradle DSL for builds
 
 -->
 
@@ -242,23 +272,167 @@ Kotlin not only stands out due to its null safety and expressive syntax but also
 
 - **Adaptable to Environments**: Facilitates execution in multiple environments - local, cloud, or FaaS, without code alterations.
 
-- **Cloud Agnosticism**: Enables applications to run across different FaaS providers like AWS Lambda, Azure Functions, etc.
+- **Cloud Agnostic**: Enables applications to run across different FaaS providers like AWS Lambda, Azure Functions, etc.
 
 - **Dependency Injection**: Harmonizes with Spring's robust dependency injection, allowing smooth integration with Clean Architecture.
 
 - **Extensive Ecosystem**: Leverages the vast Spring ecosystem, unlocking a wide array of functionalities and extensibility for your serverless applications.
 
-- **Unified API**: Offers a consistent programming model across serverless providers.
+- **Memory and performance optimisation**: Utilize Spring Native with GraalVM to improve start-up performance and memory utilisation.
 
 </v-clicks>
+
 
 ---
 
 # Spring Cloud Function code example
 
+```kotlin
+@FunctionName("FileToEventProcessor")
+@StorageAccount("AzureWebJobsStorage")
+fun blobTrigger(
+    @BlobTrigger(name = "content", path = "input/batch/someFile", dataType = "binary") content: ByteArray,
+    context: ExecutionContext
+) {
+    handleContent(content)
+}
+```
+---
+
+# Terrform CDK
+
+<v-clicks>
+
+- **Multi lamguage support**: Utilize familiar programming languages like Kotlin, Java or TypeScript for infrastructure code.
+
+- **Multi-Cloud Compatibility**: Define and provision infrastructure seamlessly across multiple cloud providers like AWS, Azure, and Google Cloud.
+
+- **Reusability**: Leverage constructs (modules) to create reusable, shareable, and composable components.
+
+- **Interoperability**: Utilize existing Terraform providers and modules for an extensive library of resources.
+
+- **Predictable Changes**: Employ `cdktf diff` and to understand the changes.
+
+</v-clicks>
 
 ---
 
+# Terrform CDK - Azure example
+
+```kotlin
+val functionApp = LinuxFunctionApp(
+  this, "Terraform-Cdk-Kotlin-Azure-Function-JVM",
+  LinuxFunctionAppConfig.builder()
+    .name(functionAppName)
+    // fun settings
+    .siteConfig(
+      LinuxFunctionAppSiteConfig.builder()
+        .applicationStack(
+          LinuxFunctionAppSiteConfigApplicationStack.builder()
+            .javaVersion("17")
+            .build()
+        ).build()
+    )
+    .appSettings(
+      // app settings
+    )
+    .build()
+)
+```
+
+---
+
+# Terrform CDK - AWS example
+
+```kotlin
+ LambdaFunction(
+  this, "Terraform-Cdk-Kotlin-Lambda-JVM",
+  LambdaFunctionConfig.builder()
+    .functionName(functionName)
+    .handler("nl.vintik.sample.KotlinLambda::handleRequest")
+    .runtime("java17")
+    .filename("${System.getenv("GITHUB_WORKSPACE")}/build/dist/function.zip")
+    .architectures(listOf("arm64"))
+    .role(lambdaRole.arn)
+    .dependsOn(listOf(productsTable, lambdaRole))
+    .memorySize(512)
+    .timeout(120)
+    .build()
+)
+```
+
+---
+
+# Deployment
+
+```yaml {all|4-5|10-11}
+- name: Generate Terraform files
+  run: |
+    cd ${GITHUB_WORKSPACE}/cdk
+    cdktf get
+    cdktf synth
+
+- name: Deploy with Terraform
+  run: |
+    cd ${GITHUB_WORKSPACE}/cdk/cdktf.out/stacks/${{ matrix.config.stack-name }}
+    terraform init
+    terraform apply -auto-approve
+```
+
+<!--
+Generate Terraform Files
+
+- cdktf get: Fetches the dependencies required for the Terraform CDK code, such as provider plugins and modules.
+- cdktf synth: Translates the CDKTF code into Terraform JSON configuration files, synthesizing the high-level constructs into a format Terraform understands.
+
+Deploy with Terraform
+
+- terraform init: Initializes the Terraform working directory, setting up the backend, and downloading the necessary provider plugins.
+- terraform apply -auto-approve: Applies the changes necessary to reach the desired state of the configuration, automatically approving the applied plan, thus making changes to the infrastructure.
+
+-->
+---
+
+# Performance Optimisations
+If required you can configure performance optimisations such as AWS SnapStart (free) or Azure function Premium plan (costs).
+E.g. in Terrform CDK:
+
+```kotlin {all|8}
+LambdaFunction(
+  this, "Terraform-Cdk-Kotlin-Lambda-SnapStart",
+  LambdaFunctionConfig.builder()
+    .functionName(functionName)
+    .handler("nl.vintik.sample.KotlinLambda::handleRequest")
+    .runtime("java17")
+    .filename("${System.getenv("GITHUB_WORKSPACE")}/build/dist/function.zip")
+    .snapStart { "PublishedVersions" }
+    .role(lambdaRole.arn)
+    .memorySize(512)
+    .timeout(120)
+    .build()
+)
+
+```
+
+
+---
+
+# Key Takeaways
+
+<v-clicks>
+
+🌩️ **Achieving Cloud Independence**
+- Clean Architecture: Minimizes cloud lock-in by keeping logic decoupled from infrastructure.
+- Choose Wisely: Select tech that allows cloud-agnostic function implementations.
+
+🛠️ **Kotlin: Everywhere**
+- Uniformity: Use Kotlin across application development, infrastructure, and build automation.
+- Compatibility: Kotlin enables usage across various FaaS providers and always stays up-to-date.
+
+</v-clicks>
+---
+
+# Q&A
 
 ---
 layout: end
