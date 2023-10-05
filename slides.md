@@ -36,10 +36,9 @@ transition: fade-out
 
 # Overview
 
-- 💡 **Introduction**
 - ☁️ **Serverless Cloud**
 - 🚀 **Function as a Service (FaaS)**
-- 💻 **Kotlin on FaaS**
+- 💡 **Kotlin on FaaS**
 - 🧹 **Clean Architecture**
 - 🌱 **Spring Cloud Function**
 - 🌐 **Terraform CDK**
@@ -152,6 +151,8 @@ Example from online shop (bol.com) about season reparation for each and every ap
 FaaS provides an efficient and flexible way to create specific functionalities without the weight of managing the underlying infrastructure. The applications of serverless are diverse. From developing microservices, creating RESTful backends, managing stream processing, handling real-time file uploads, and conducting data processing, serverless provides a flexible and developer-friendly platform to build varied solutions
 -->
 
+---
+
 # Kotlin on FaaS: A Powerful Duo
 
 <v-clicks>
@@ -238,6 +239,7 @@ Imagine we are build a pension administration microservice,
 - infra has integration to our cloud specific service, e.g. Azure blob storage & Service Bus or AWS S3 and Event Bridge
 - cdk has cloud specific infrastructure as code
 -->
+
 ---
 
 # Clean Architecture - with gradle modules
@@ -259,11 +261,9 @@ dependencies {
    implementation(":domain")
 }
 ```
----
-
-
 
 ---
+
 
 # Spring Cloud Function in a Nutshell
 
@@ -290,8 +290,9 @@ dependencies {
 @FunctionName("FileToEventProcessor")
 @StorageAccount("AzureWebJobsStorage")
 fun blobTrigger(
-    @BlobTrigger(name = "content", path = "input/batch/someFile", dataType = "binary") content: ByteArray,
-    context: ExecutionContext
+    @BlobTrigger(name = "content", path = "input/batch/someFile", dataType = "binary") 
+    content: ByteArray,
+    context: ExecutionContext,
 ) {
     handleContent(content)
 }
@@ -302,7 +303,7 @@ fun blobTrigger(
 
 <v-clicks>
 
-- **Multi lamguage support**: Utilize familiar programming languages like Kotlin, Java or TypeScript for infrastructure code.
+- **Multi language support**: Utilize familiar programming languages like Kotlin, Java or TypeScript for infrastructure code.
 
 - **Multi-Cloud Compatibility**: Define and provision infrastructure seamlessly across multiple cloud providers like AWS, Azure, and Google Cloud.
 
@@ -419,21 +420,22 @@ LambdaFunction(
 ---
 
 # Key Takeaways
+To conclude...
 
 <v-clicks>
 
 🌩️ **Achieving Cloud Independence**
+
 - Clean Architecture: Minimizes cloud lock-in by keeping logic decoupled from infrastructure.
 - Choose Wisely: Select tech that allows cloud-agnostic function implementations.
 
 🛠️ **Kotlin: Everywhere**
+
 - Uniformity: Use Kotlin across application development, infrastructure, and build automation.
 - Compatibility: Kotlin enables usage across various FaaS providers and always stays up-to-date.
 
 </v-clicks>
----
 
-# Q&A
 
 ---
 layout: end
