@@ -428,6 +428,28 @@ Deploy with Terraform
 ---
 
 # Performance Optimisations
+
+<v-clicks>
+
+- Go Spring Native with GraalVM
+
+- Use SnapStart with Priming & Tiered Compilation
+
+</v-clicks>
+
+<v-clicks>
+
+<img src="/SnapStart.png" alt="Clean Architecture" style="width: 60%; height: auto;" />
+
+</v-clicks>
+
+<!--
+Firecracker MicroVM Snapshot
+-->
+
+---
+
+# Performance Optimisations - SnapStart 
 If required you can configure performance optimisations such as AWS SnapStart (free). E.g. in Terraform CDK:
 
 ```kotlin {all|4,10}
@@ -448,6 +470,37 @@ LambdaFunctionConfig.builder()
 
 ---
 
+# Performance Optimisations - SnapStart priming
+
+<img src="/SnapStartWithCrac.png" alt="SnapStartWithCrac" style="width: 60%; height: auto;" />
+
+```kotlin
+override fun beforeCheckpoint(context: Context<out Resource>?) {
+  runCatching {
+    productsController.find("i dont exist")
+  }
+}
+```
+---
+
+# Performance Optimisations - Result
+
+<img src="/PerfomanceResultTotal.png" alt="PerfomanceResultTotal" style="width: 80%; height: auto;" />
+
+---
+
+# Performance Optimisations - Explanation
+Number of cold start occurrences reduced by circa 80% , cold start performance improved >10x
+
+Original Kotlin/JVM ARM64 AWS Lambda:
+<img src="/beforeOptimisation.png" alt="beforeOptimisation" style="width: 60%; height: auto;" />
+
+SnapStart + C1 + priming with CRaC hooks:
+<img src="/afterOptimisation.png" alt="afterOptimisation" style="width: 60%; height: auto;" />
+
+
+---
+
 # Key Takeaways
 To conclude...
 
@@ -461,8 +514,8 @@ To conclude...
 🛠️ **Kotlin: Everywhere**
 
 - Uniformity: across application development, infrastructure, and build automation.
-- Compatibility: Kotlin enables usage across various FaaS providers and use latest version.
-- Frameworks: Java & Kotlin like Spring, Quarkus, Micronaut, Kotless & Ktor
+- Compatibility: various FaaS providers, frameworks & use Kotlin latest version.
+- Performance: Go Native or SnapStart with CraC
 
 </v-clicks>
 
