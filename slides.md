@@ -498,7 +498,6 @@ Original Kotlin/JVM ARM64 AWS Lambda:
 SnapStart + C1 + priming with CRaC hooks:
 <img src="/afterOptimisation.png" alt="afterOptimisation" style="width: 60%; height: auto;" />
 
-
 ---
 
 # Key Takeaways
