@@ -258,7 +258,7 @@ project(":domain").projectDir = file("software/domain")
 **application/build.gradle.kts:**
 ```kotlin
 dependencies {
-   implementation(":domain")
+  implementation(project(":domain"))
 }
 ```
 
@@ -285,21 +285,27 @@ dependencies {
 ---
 
 # Spring Cloud Function code example
+Insure to include aws spring cloud function adapter in infrastructure layer dependencies.
 
+### KotlinLambdaConfiguration.kt:
 ```kotlin
-@FunctionName("FileToEventProcessor")
-@StorageAccount("AzureWebJobsStorage")
-fun blobTrigger(
-    @BlobTrigger(name = "content", path = "input/batch/someFile", dataType = "binary") 
-    content: ByteArray,
-    context: ExecutionContext,
-) {
-    handleContent(content)
+@Bean
+fun handleRequest(productService: ProductService): (Message<ProductRequest>) -> Product? {
+  return {
+    logger.info("Getting product with id ${it.payload.id}")
+    productService.find(it.payload.id)
+  }
 }
 ```
+
+### build.gradle.kts:
+```kotlin
+ implementation("org.springframework.cloud:spring-cloud-function-adapter-aws:4.0.5")
+```
+
 ---
 
-# Terrform CDK
+# Terraform CDK
 
 <v-clicks>
 
@@ -315,49 +321,77 @@ fun blobTrigger(
 
 </v-clicks>
 
+<!--
+Generates terraform instead of cloud formation
+-->
+[//]: # (---)
+
+[//]: # ()
+[//]: # (# Terrform CDK - Azure example)
+
+[//]: # ()
+[//]: # (```kotlin)
+
+[//]: # (val functionApp = LinuxFunctionApp&#40;)
+
+[//]: # (  this, "Terraform-Cdk-Kotlin-Azure-Function-JVM",)
+
+[//]: # (  LinuxFunctionAppConfig.builder&#40;&#41;)
+
+[//]: # (    .name&#40;functionAppName&#41;)
+
+[//]: # (    // fun settings)
+
+[//]: # (    .siteConfig&#40;)
+
+[//]: # (      LinuxFunctionAppSiteConfig.builder&#40;&#41;)
+
+[//]: # (        .applicationStack&#40;)
+
+[//]: # (          LinuxFunctionAppSiteConfigApplicationStack.builder&#40;&#41;)
+
+[//]: # (            .javaVersion&#40;"17"&#41;)
+
+[//]: # (            .build&#40;&#41;)
+
+[//]: # (        &#41;.build&#40;&#41;)
+
+[//]: # (    &#41;)
+
+[//]: # (    .appSettings&#40;)
+
+[//]: # (      // app settings)
+
+[//]: # (    &#41;)
+
+[//]: # (    .build&#40;&#41;)
+
+[//]: # (&#41;)
+
+[//]: # (```)
+
 ---
 
-# Terrform CDK - Azure example
+# Terraform CDK - AWS example
 
-```kotlin
-val functionApp = LinuxFunctionApp(
-  this, "Terraform-Cdk-Kotlin-Azure-Function-JVM",
-  LinuxFunctionAppConfig.builder()
-    .name(functionAppName)
-    // fun settings
-    .siteConfig(
-      LinuxFunctionAppSiteConfig.builder()
-        .applicationStack(
-          LinuxFunctionAppSiteConfigApplicationStack.builder()
-            .javaVersion("17")
-            .build()
-        ).build()
-    )
-    .appSettings(
-      // app settings
-    )
-    .build()
-)
-```
-
----
-
-# Terrform CDK - AWS example
-
-```kotlin
+```kotlin {all|5,14,15}
  LambdaFunction(
-  this, "Terraform-Cdk-Kotlin-Lambda-JVM",
+  this, "Spring-Clean-Architecture-Fun",
   LambdaFunctionConfig.builder()
     .functionName(functionName)
-    .handler("nl.vintik.sample.KotlinLambda::handleRequest")
+    .handler("org.springframework.cloud.function.adapter.aws.FunctionInvoker")
     .runtime("java17")
-    .filename("${System.getenv("GITHUB_WORKSPACE")}/build/dist/function.zip")
-    .architectures(listOf("arm64"))
+    // other settings
     .role(lambdaRole.arn)
     .dependsOn(listOf(productsTable, lambdaRole))
-    .memorySize(512)
-    .timeout(120)
-    .build()
+    .environment(
+      LambdaFunctionEnvironment.builder()
+        .variables(
+          mapOf(
+            "SPRING_CLOUD_FUNCTION_DEFINITION" to "handleRequest",
+            "MAIN_CLASS" to "com.example.clean.architecture.Application"
+        ).build()
+    ).build()
 )
 ```
 
@@ -394,28 +428,23 @@ Deploy with Terraform
 ---
 
 # Performance Optimisations
-Is performance an issue on FaaS? Short answer is - no.
+If required you can configure performance optimisations such as AWS SnapStart (free). E.g. in Terraform CDK:
 
-If required you can configure performance optimisations such as AWS SnapStart (free) or Azure function Premium plan (costs).
-E.g. in Terrform CDK:
-
-```kotlin {all|8}
-LambdaFunction(
-  this, "Terraform-Cdk-Kotlin-Lambda-SnapStart",
-  LambdaFunctionConfig.builder()
-    .functionName(functionName)
-    .handler("nl.vintik.sample.KotlinLambda::handleRequest")
-    .runtime("java17")
-    .filename("${System.getenv("GITHUB_WORKSPACE")}/build/dist/function.zip")
-    .snapStart { "PublishedVersions" }
-    .role(lambdaRole.arn)
-    .memorySize(512)
-    .timeout(120)
-    .build()
-)
-
+```kotlin {all|4,10}
+LambdaFunctionConfig.builder()
+// other settings
+.runtime("java17")
+.snapStart { "PublishedVersions" }
+.environment(
+    LambdaFunctionEnvironment.builder()
+        .variables(
+            mapOf(
+                // Stop at level 1 (C1 compiler)
+                "JAVA_TOOL_OPTIONS" to "-XX:+TieredCompilation -XX:TieredStopAtLevel=1"
+            )
+        ).build()
+).build()
 ```
-
 
 ---
 
@@ -431,11 +460,15 @@ To conclude...
 
 🛠️ **Kotlin: Everywhere**
 
-- Uniformity: Use Kotlin across application development, infrastructure, and build automation.
-- Compatibility: Kotlin enables usage across various FaaS providers and always stays up-to-date.
+- Uniformity: across application development, infrastructure, and build automation.
+- Compatibility: Kotlin enables usage across various FaaS providers and use latest version.
+- Frameworks: Java & Kotlin like Spring, Quarkus, Micronaut, Kotless & Ktor
 
 </v-clicks>
 
+<!-- This is probably like swearing in a church ;) , Achieving Cloud Independence
+but this way you one over on argument that FaaS is cloud dependent
+-->
 
 ---
 layout: end
