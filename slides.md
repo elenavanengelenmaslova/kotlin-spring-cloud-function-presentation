@@ -513,11 +513,11 @@ Use Clean Architecture and Spring Cloud Function to decouple core logic from clo
 📦 **Structure with Gradle Modules**  
 Enforce clear boundaries between business, application, and infrastructure layers using modular Gradle projects.
 
-🌍 **Deploy Anywhere**  
-Once isolated, your business logic can run on any cloud — AWS Lambda, Azure Functions, or others — with minimal changes.
+🌍 **Deploy and Run Anywhere**  
+Once isolated, your business logic can run on various cloud providers, e.g.AWS and Azure
 
 🛠️ **Kotlin: Everywhere**
-Uniformity across application development, infrastructure, and build automation.
+Speak the same lingo - across application development, infrastructure, and build automation.
 
 </v-clicks>
 
