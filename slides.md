@@ -376,53 +376,54 @@ fun handleRequest(productService: ProductService): (Message<ProductRequest>) -> 
 </v-clicks>
 
 <!--
-Generates terraform instead of cloud formation
+Generates terraform instead of cloud formation. 
+- Its like speaking the same language but having to use diffferent words to describe your infrastructure. It's like a natural language - much easier to learn new workds of a language you already know than to learn a new language from scratch.
 -->
-[//]: # (---)
+---
 
-[//]: # ()
-[//]: # (# Terrform CDK - Azure example)
 
-[//]: # ()
-[//]: # (```kotlin)
+# Terrform CDK - Azure example
 
-[//]: # (val functionApp = LinuxFunctionApp&#40;)
 
-[//]: # (  this, "Terraform-Cdk-Kotlin-Azure-Function-JVM",)
+```kotlin
 
-[//]: # (  LinuxFunctionAppConfig.builder&#40;&#41;)
+val functionApp = LinuxFunctionApp(
 
-[//]: # (    .name&#40;functionAppName&#41;)
+  this, "Terraform-Cdk-Kotlin-Azure-Function-JVM",
 
-[//]: # (    // fun settings)
+  LinuxFunctionAppConfig.builder()
 
-[//]: # (    .siteConfig&#40;)
+    .name(functionAppName)
 
-[//]: # (      LinuxFunctionAppSiteConfig.builder&#40;&#41;)
+    // fun settings
 
-[//]: # (        .applicationStack&#40;)
+    .siteConfig(
 
-[//]: # (          LinuxFunctionAppSiteConfigApplicationStack.builder&#40;&#41;)
+      LinuxFunctionAppSiteConfig.builder()
 
-[//]: # (            .javaVersion&#40;"17"&#41;)
+        .applicationStack(
 
-[//]: # (            .build&#40;&#41;)
+          LinuxFunctionAppSiteConfigApplicationStack.builder()
 
-[//]: # (        &#41;.build&#40;&#41;)
+            .javaVersion("17")
 
-[//]: # (    &#41;)
+            .build()
 
-[//]: # (    .appSettings&#40;)
+        ).build()
 
-[//]: # (      // app settings)
+    )
 
-[//]: # (    &#41;)
+    .appSettings(
 
-[//]: # (    .build&#40;&#41;)
+      // app settings
 
-[//]: # (&#41;)
+    )
 
-[//]: # (```)
+    .build()
+
+)
+
+```
 
 ---
 
@@ -506,21 +507,23 @@ To conclude...
 
 <v-clicks>
 
-🌩️ **Achieving Cloud Independence**
+🧹 **Keep Business Logic Clean and Portable**  
+Use Clean Architecture and Spring Cloud Function to decouple core logic from cloud-specific code.
 
-- Clean Architecture: Minimizes cloud lock-in by keeping logic decoupled from infrastructure.
-- Choose Wisely: Select tech that allows cloud-agnostic function implementations.
+📦 **Structure with Gradle Modules**  
+Enforce clear boundaries between business, application, and infrastructure layers using modular Gradle projects.
+
+🌍 **Deploy Anywhere**  
+Once isolated, your business logic can run on any cloud — AWS Lambda, Azure Functions, or others — with minimal changes.
 
 🛠️ **Kotlin: Everywhere**
-
-- Uniformity: across application development, infrastructure, and build automation.
-- Compatibility: various FaaS providers, frameworks & use Kotlin latest version.
-- Performance: Go Native or use built in optimizations such as Lambda SnapStart
+Uniformity across application development, infrastructure, and build automation.
 
 </v-clicks>
 
 <!-- 
- this way you one over on argument that FaaS is cloud dependent
+ - Clean architecture enables you to keep your business logic separate from cloud specific code and therefore portable across clouds
+ - Speak the same language - it helps portability to keep the language and tooling the same thus also not cloud dependent
 -->
 
 ---
