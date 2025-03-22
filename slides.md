@@ -40,10 +40,11 @@ transition: fade-out
 - 🚀 **Function as a Service (FaaS)**
 - 💡 **Kotlin on FaaS**
 - 🧹 **Clean Architecture**
-- **Live codeing** 
+- 🧑‍💻 **Live Coding – Part 1**
 - 🌱 **Spring Cloud Function**
 - 🌐 **Terraform CDK**
 - 🛠️ **Deployment**
+- 🧑‍💻 **Live Coding – Part 2**
 - 🗝️ **Key Takeaways**
 - ❓ **Q&A**
 
@@ -121,18 +122,6 @@ Examples of FaaS: AWS Lambda and Azure Function
 -->
 
 ---
-class: flex flex-col justify-center items-center h-[100vh] space-y-4
----
-
-# FaaS on as-used basis
-
-<img src="/FaaSAutoscaling.png" alt="FaaSAutoscaling" style="width: 60%; height: auto;" />
-
-<!--
-Example from online shop (bol.com) about season reparation for each and every application
--->
-
----
 
 # FaaS Use-Cases
 
@@ -151,6 +140,31 @@ Example from online shop (bol.com) about season reparation for each and every ap
 <!--
 FaaS provides an efficient and flexible way to create specific functionalities without the weight of managing the underlying infrastructure. The applications of serverless are diverse. From developing microservices, creating RESTful backends, managing stream processing, handling real-time file uploads, and conducting data processing, serverless provides a flexible and developer-friendly platform to build varied solutions
 -->
+
+---
+class: flex flex-col justify-center items-center h-[100vh] space-y-4
+---
+
+# FaaS on as-used basis
+
+<img src="/FaaSAutoscaling.png" alt="FaaSAutoscaling" style="width: 60%; height: auto;" />
+
+<!--
+Example from online shop (bol.com) about season reparation for each and every application
+-->
+
+---
+class: flex flex-col justify-center items-center h-[100vh] text-center space-y-4 px-8
+---
+
+### <span class="text-4xl font-bold">Using FaaS for your cloud applications</span>
+
+### <span class="text-2xl">is like using a food delivery service for your meals.</span>
+
+<span class="text-lg italic text-slate-600">
+You get exactly what you want, when you want it —  
+without dealing with the mess of cooking (or managing servers) yourself!
+</span>
 
 ---
 
@@ -182,18 +196,21 @@ Kotlin not only stands out due to its null safety and expressive syntax but also
 # Spring Cloud Function in a Nutshell
 
 <v-clicks>
-
-- **Adaptable to Environments**: Facilitates execution in multiple environments - local, cloud, or FaaS, without code alterations.
+Enables you to run your function implementation as a Spring app
 
 - **Cloud Agnostic**: Enables applications to run across different FaaS providers like AWS Lambda, Azure Functions, etc.
 
-- **Dependency Injection**: Harmonizes with Spring's robust dependency injection, allowing smooth integration with Clean Architecture.
+- **Adaptable to Environments**: Facilitates execution in multiple environments - local or cloud
 
-- **Extensive Ecosystem**: Leverages the vast Spring ecosystem, unlocking a wide array of functionalities and extensibility for your serverless applications.
+- **Dependency Injection**: Harmonizes with Spring's  dependency injection, allowing smooth integration with Clean Architecture.
 
 - **Memory and performance optimisation**: Utilize Spring Native with GraalVM to improve start-up performance and memory utilisation.
 
 </v-clicks>
+
+<!--
+You can use Springs extensive ecosystem. You can even use GraalVM for performance optimisation, however in my experience this complexity is not needed because of moddern solutions like Lambda SnapStart (free for JVM) or Azure Function Elastic Premium plan (not free)
+-->
 
 ---
 
@@ -257,14 +274,37 @@ Imagine we are build a pension administration microservice,
 - in application we have use case business logic, for example process employment, marriage, divorce, death
 - infra has integration to our cloud specific service, e.g. Azure blob storage & Service Bus or AWS S3 and Event Bridge
 - cdk has cloud specific infrastructure as code
+
+
+MockNest: 
+- in domain we would have everything with mocking, in our case wiremock has all the logic so we do not have much here
+- in application we have use case business logic, so actual forwarding logic to wiremock, and also any extra functionality specific for the use cases rather than domain
+- infra has integration to our cloud specific service, e.g. Azure blob storage and Azure function
+AWS S3 and AWS lambda
+- cdk has cloud specific infrastructure as code
 -->
 
 ---
 
-# Live coding - part 1
-- Examine the project and Demo "Hello World"
-- Wire in business logic to AWS Lambda and Azure Function
-- Deploy and Demo "WireMock"
+# Use case - MockNest
+- Mock any external REST or SOAP service
+- Ability switch between mock and real service
+- Ability to run automated integration tests
+- Ability to test manually
+<!--
+Architecture diagram
+-->
+---
+
+# 🧑‍💻 Live Coding – Part 1: From Hello World to Business Logic
+
+<v-clicks>
+
+- Walk through project structure & setup  
+- Connect business logic to AWS Lambda & Azure Function  
+- Deploy and Demo "MockNest" on both AWS and Azure
+
+</v-clicks>
 
 <!--
 Let's update our Hello world Lambda and Azure function to use the busness logic which is a WireMock with some forwarding logic for serverless: 
@@ -441,89 +481,23 @@ Deploy with Terraform
 -->
 
 ---
-class: flex flex-col justify-center items-center h-[100vh] space-y-4
----
 
-# FaaS on as-used basis
-
-<img src="/FaaSAutoscaling.png" alt="FaaSAutoscaling" style="width: 60%; height: auto;" />
-
-<!--
-Example from online shop (bol.com) about season reparation for each and every application
--->
-
----
-
-# Performance Optimisations
+# 🧑‍💻 Live Coding – Part 2: Add Persistence
 
 <v-clicks>
 
-- Go Spring Native with GraalVM
-
-- Use SnapStart with Priming & Tiered Compilation
-
-</v-clicks>
-
-<v-clicks>
-
-<img src="/SnapStart.png" alt="Clean Architecture" style="width: 60%; height: auto;" />
+- Walk though persistence code for storing mock mappings  
+- Extend business logic persistence integration  
+- Deploy and Demo the updated "MockNest" on both AWS and Azure
 
 </v-clicks>
 
 <!--
-Firecracker MicroVM Snapshot
+Let's update our Hello world Lambda and Azure function to use the busness logic which is a WireMock with some forwarding logic for serverless: 
+- update module dependencies
+- call business logic from functions
+
 -->
-
----
-
-# Performance Optimisations - SnapStart 
-If required you can configure performance optimisations such as AWS SnapStart (free). E.g. in Terraform CDK:
-
-```kotlin {all|4,10}
-LambdaFunctionConfig.builder()
-// other settings
-.runtime("java17")
-.snapStart { "PublishedVersions" }
-.environment(
-    LambdaFunctionEnvironment.builder()
-        .variables(
-            mapOf(
-                // Stop at level 1 (C1 compiler)
-                "JAVA_TOOL_OPTIONS" to "-XX:+TieredCompilation -XX:TieredStopAtLevel=1"
-            )
-        ).build()
-).build()
-```
-
----
-
-# Performance Optimisations - SnapStart priming
-
-<img src="/SnapStartWithCrac.png" alt="SnapStartWithCrac" style="width: 60%; height: auto;" />
-
-```kotlin
-override fun beforeCheckpoint(context: Context<out Resource>?) {
-  runCatching {
-    productsController.find("i dont exist")
-  }
-}
-```
----
-
-# Performance Optimisations - Result
-
-<img src="/PerfomanceResultTotal.png" alt="PerfomanceResultTotal" style="width: 80%; height: auto;" />
-
----
-
-# Performance Optimisations - Explanation
-Number of cold start occurrences reduced by circa 80% , cold start performance improved >10x
-
-Original Kotlin/JVM ARM64 AWS Lambda:
-<img src="/beforeOptimisation.png" alt="beforeOptimisation" style="width: 60%; height: auto;" />
-
-SnapStart + C1 + priming with CRaC hooks:
-<img src="/afterOptimisation.png" alt="afterOptimisation" style="width: 60%; height: auto;" />
 
 ---
 
@@ -541,19 +515,52 @@ To conclude...
 
 - Uniformity: across application development, infrastructure, and build automation.
 - Compatibility: various FaaS providers, frameworks & use Kotlin latest version.
-- Performance: Go Native or SnapStart with CraC
+- Performance: Go Native or use built in optimizations such as Lambda SnapStart
 
 </v-clicks>
 
-<!-- This is probably like swearing in a church ;) , Achieving Cloud Independence
-but this way you one over on argument that FaaS is cloud dependent
+<!-- 
+ this way you one over on argument that FaaS is cloud dependent
 -->
 
 ---
-layout: end
+class: flex flex-col items-center justify-start h-[100vh] pt-8 space-y-4 px-8
 ---
 
-# "Using FaaS for your cloud applications
-## is like using a food delivery service for your meals."
-> You get exactly what you want, when you want it, without dealing
-> with the mess of cooking (or managing servers) yourself!
+# ❓ Q&A
+
+<div class="text-base text-slate-500 text-center mt-2">
+Feel free to ask anything — architecture, Kotlin, or serverless!
+</div>
+
+<div class="flex flex-row justify-center gap-20 pt-6">
+
+  <!-- Left: Connect with me -->
+  <div class="flex flex-col items-center space-y-2 text-sm text-slate-500">
+    <img src="/website-qr.png" alt="QR code to personal website" class="w-28 rounded shadow" />
+    <div><strong>Connect with me</strong> 🌐</div>
+    <a href="https://elenavanengelenmaslova.github.io/" target="_blank" class="text-blue-600 underline">
+      elenavanengelenmaslova.github.io
+    </a>
+  </div>
+
+  <!-- Right: Book -->
+  <div class="flex flex-col items-center space-y-2 text-sm text-slate-500">
+    <img src="/book-qr.png" alt="QR code to Kotlin Crash Course" class="w-28 rounded shadow" />
+    <div><strong>Kotlin Crash Course</strong> 📘</div>
+    <a href="https://qrco.de/bfquzM" target="_blank" class="text-blue-600 underline">
+      qrco.de/bfquzM
+    </a>
+    <div>Use code <span class="font-semibold text-slate-700">VOXXEDAMS15</span> for 15% off</div>
+    <div class="italic text-xs text-slate-400">Valid until: May 31</div>
+  </div>
+
+</div>
+
+
+
+<!-- 
+ If you thought this is cool but i first need to brush up on my Kotlin before deploying to cloud, then I recommend my book. at the end, lucky chapter 13 guides you through deploying an event driven serverless app
+-->
+
+
