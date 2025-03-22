@@ -19,7 +19,7 @@ transition: slide-up
 css: unocss
 ---
 
-# Exploring Kotlin-Powered Serverless with Spring Cloud Function
+# Clean Architecture for Serverless: Business Logic You Can Take Anywhere
 
 <div class="pt-12">
     Elena van Engelen - Maslova
@@ -40,6 +40,7 @@ transition: fade-out
 - 🚀 **Function as a Service (FaaS)**
 - 💡 **Kotlin on FaaS**
 - 🧹 **Clean Architecture**
+- **Live codeing** 
 - 🌱 **Spring Cloud Function**
 - 🌐 **Terraform CDK**
 - 🛠️ **Deployment**
@@ -178,6 +179,24 @@ Kotlin not only stands out due to its null safety and expressive syntax but also
 
 ---
 
+# Spring Cloud Function in a Nutshell
+
+<v-clicks>
+
+- **Adaptable to Environments**: Facilitates execution in multiple environments - local, cloud, or FaaS, without code alterations.
+
+- **Cloud Agnostic**: Enables applications to run across different FaaS providers like AWS Lambda, Azure Functions, etc.
+
+- **Dependency Injection**: Harmonizes with Spring's robust dependency injection, allowing smooth integration with Clean Architecture.
+
+- **Extensive Ecosystem**: Leverages the vast Spring ecosystem, unlocking a wide array of functionalities and extensibility for your serverless applications.
+
+- **Memory and performance optimisation**: Utilize Spring Native with GraalVM to improve start-up performance and memory utilisation.
+
+</v-clicks>
+
+---
+
 # Bridging to Clean Architecture
 
 Scaling and flexibility are the hallmarks of FaaS, but how do we ensure our architecture remains cloud-agnostic and maintainable as it grows?
@@ -242,6 +261,20 @@ Imagine we are build a pension administration microservice,
 
 ---
 
+# Live coding - part 1
+- Examine the project and Demo "Hello World"
+- Wire in business logic to AWS Lambda and Azure Function
+- Deploy and Demo "WireMock"
+
+<!--
+Let's update our Hello world Lambda and Azure function to use the busness logic which is a WireMock with some forwarding logic for serverless: 
+- update module dependencies
+- call business logic from functions
+
+-->
+
+---
+
 # Clean Architecture - with gradle modules
 How would the module definition look in Gradle Kotlin DSL?
 
@@ -265,26 +298,7 @@ dependencies {
 ---
 
 
-# Spring Cloud Function in a Nutshell
-
-<v-clicks>
-
-- **Adaptable to Environments**: Facilitates execution in multiple environments - local, cloud, or FaaS, without code alterations.
-
-- **Cloud Agnostic**: Enables applications to run across different FaaS providers like AWS Lambda, Azure Functions, etc.
-
-- **Dependency Injection**: Harmonizes with Spring's robust dependency injection, allowing smooth integration with Clean Architecture.
-
-- **Extensive Ecosystem**: Leverages the vast Spring ecosystem, unlocking a wide array of functionalities and extensibility for your serverless applications.
-
-- **Memory and performance optimisation**: Utilize Spring Native with GraalVM to improve start-up performance and memory utilisation.
-
-</v-clicks>
-
-
----
-
-# Spring Cloud Function code example
+# Function code examples
 Insure to include aws spring cloud function adapter in infrastructure layer dependencies.
 
 ### KotlinLambdaConfiguration.kt:
@@ -425,6 +439,19 @@ Deploy with Terraform
 - terraform apply -auto-approve: Applies the changes necessary to reach the desired state of the configuration, automatically approving the applied plan, thus making changes to the infrastructure.
 
 -->
+
+---
+class: flex flex-col justify-center items-center h-[100vh] space-y-4
+---
+
+# FaaS on as-used basis
+
+<img src="/FaaSAutoscaling.png" alt="FaaSAutoscaling" style="width: 60%; height: auto;" />
+
+<!--
+Example from online shop (bol.com) about season reparation for each and every application
+-->
+
 ---
 
 # Performance Optimisations
