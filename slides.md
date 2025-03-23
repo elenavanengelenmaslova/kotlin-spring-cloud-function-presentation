@@ -516,7 +516,7 @@ Enforce clear boundaries between business, application, and infrastructure layer
 🌍 **Deploy and Run Anywhere**  
 Once isolated, your business logic can run on various cloud providers, e.g.AWS and Azure
 
-🛠️ **Kotlin: Everywhere**
+🛠️ **Kotlin Everywhere**
 Speak the same lingo - across application development, infrastructure, and build automation.
 
 </v-clicks>
