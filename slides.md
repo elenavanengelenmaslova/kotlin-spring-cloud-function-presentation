@@ -36,15 +36,15 @@ transition: fade-out
 
 # Overview
 
-- ☁️ **Serverless Cloud**
-- 🚀 **Function as a Service (FaaS)**
+- ☁️🚀 **Serverless & FaaS**
 - 💡 **Kotlin on FaaS**
 - 🧹 **Clean Architecture**
 - 🧑‍💻 **Live Coding – Part 1**
+- 🧱 **Gradle Modules**
 - 🌱 **Spring Cloud Function**
+- 🧑‍💻 **Live Coding – Part 2**
 - 🌐 **Terraform CDK**
 - 🛠️ **Deployment**
-- 🧑‍💻 **Live Coding – Part 2**
 - 🗝️ **Key Takeaways**
 - ❓ **Q&A**
 
@@ -174,11 +174,11 @@ without dealing with the mess of cooking (or managing servers) yourself!
 
 - **Multi-Platform Compatibility**: Run on any FaaS supporting Java or JS, such as AWS Lambda and Azure Functions.
 
-- **Bypass Java Version Constraints**: Utilize the newest features and advancements by employing the latest Kotlin versions, circumventing limitations imposed by cloud providers' supported Java versions (currently Java 17 on AWS and Azure).
+- **Bypass Java Version Constraints**: Utilize the newest features and advancements by employing the latest Kotlin versions, circumventing limitations imposed by cloud providers' supported Java versions (currently Java 21 on AWS and Java 17 on Azure).
 
-- **Infrastructure as Code with Kotlin**: Employ Terraform CDK for multi-cloud setups, or AWS CDK, while keeping the concise, expressive, and safe syntax of Kotlin.
+- **Infrastructure as Code with Kotlin**: Use Terraform CDK for multi-cloud setups, while keeping the concise, expressive, and safe syntax of Kotlin.
 
-- **Unified with Kotlin**: Develop applications, manage infrastructure, and automate builds, all utilizing Kotlin's streamlined syntax and robust feature set.
+- **Unified with Kotlin**: Use Gradle with kotlin DSL. Develop applications, manage infrastructure, and automate builds, all utilizing Kotlin's streamlined syntax and robust feature set.
 
 </v-clicks>
 
@@ -189,27 +189,6 @@ Kotlin not only stands out due to its null safety and expressive syntax but also
 - Kotlin Infrastructure as code
 - Kotlin Gradle DSL for builds
 
--->
-
----
-
-# Spring Cloud Function in a Nutshell
-
-<v-clicks>
-Enables you to run your function implementation as a Spring app
-
-- **Cloud Agnostic**: Enables applications to run across different FaaS providers like AWS Lambda, Azure Functions, etc.
-
-- **Adaptable to Environments**: Facilitates execution in multiple environments - local or cloud
-
-- **Dependency Injection**: Harmonizes with Spring's  dependency injection, allowing smooth integration with Clean Architecture.
-
-- **Memory and performance optimisation**: Utilize Spring Native with GraalVM to improve start-up performance and memory utilisation.
-
-</v-clicks>
-
-<!--
-You can use Springs extensive ecosystem. You can even use GraalVM for performance optimisation, however in my experience this complexity is not needed because of moddern solutions like Lambda SnapStart (free for JVM) or Azure Function Elastic Premium plan (not free)
 -->
 
 ---
@@ -241,12 +220,34 @@ Clean Architecture allows us to create a system that is:
 In the context of FaaS and serverless, it provides a pathway to ensure that our functions are not tightly bound to a specific cloud provider's APIs or services, ensuring that our application logic remains versatile, testable, and scalable, while also being easy to migrate between different platforms.
 
 -->
+---
+class: flex flex-col justify-start items-center h-[100vh] space-y-6 px-8
+---
+
+# Too Complex for FaaS?
+
+<div class="grid grid-cols-3 gap-4 w-full justify-items-center">
+  <div class="flex flex-col items-center space-y-2">
+    <img src="/Onion.png" alt="Onion Architecture" class="h-[35vh] object-contain" />
+    <span class="text-center text-base text-slate-600">Onion Architecture</span>
+  </div>
+
+  <div class="flex flex-col items-center space-y-2">
+    <img src="/Hexagonal.png" alt="Hexagonal Architecture" class="h-[35vh] object-contain" />
+    <span class="text-center text-base text-slate-600">Hexagonal Architecture</span>
+  </div>
+
+  <div class="flex flex-col items-center space-y-2">
+    <img src="/FullClean.jpeg" alt="Clean Architecture" class="h-[35vh] object-contain" />
+    <span class="text-center text-base text-slate-600">Clean Architecture</span>
+  </div>
+</div>
 
 ---
 class: flex flex-col justify-center items-center h-[100vh] space-y-4
 ---
 
-# Clean Architecture
+# Clean Architecture for Serverless
 
 <img src="/CleanArch.png" alt="Clean Architecture" style="width: 80%; height: auto;" />
 
@@ -286,14 +287,34 @@ AWS S3 and AWS lambda
 
 ---
 
-# Use case - MockNest
+# Use Case - MockNest 
+_Serverless WireMock_
+
+<v-clicks>
+
 - Mock any external REST or SOAP service
+
 - Ability switch between mock and real service
+
 - Ability to run automated integration tests
+
 - Ability to test manually
+</v-clicks>
+
+
 <!--
-Architecture diagram
+- MockNest should give you the ability to mock and REST or SOAP API by wiring requests to responses, this way you can test all sorts of situations including edge cases and error flows
+- You can switch between the real external service or the mock end point by just pointing at the appropriate URL
+- You can then set up your test scenarios for automated or manual tests, not for manual tests our mock data needs t remain persistent as out mock may scale down to 0 when no one is testing.
 -->
+
+---
+
+## Solution Design
+<br>
+
+<img src="AzureMockNest.png" alt="Solution Design" class="max-w-[60%] max-h-[60vh] object-contain mx-auto" />
+
 ---
 
 # 🧑‍💻 Live Coding – Part 1: From Hello World to Business Logic
@@ -315,7 +336,7 @@ Let's update our Hello world Lambda and Azure function to use the busness logic 
 
 ---
 
-# Clean Architecture - with gradle modules
+# Clean Architecture - With Gradle Modules
 How would the module definition look in Gradle Kotlin DSL?
 
 **settings.gradle.kts:**
@@ -337,25 +358,100 @@ dependencies {
 
 ---
 
+# Spring Cloud Function in a Nutshell
+Enables you to run your function implementation as a Spring app
 
-# Function code examples
-Insure to include aws spring cloud function adapter in infrastructure layer dependencies.
+<v-clicks>
 
-### KotlinLambdaConfiguration.kt:
+- **Cloud Agnostic**: Enables applications to run across different FaaS providers like AWS Lambda, Azure Functions, etc.
+
+- **Adaptable to Environments**: Facilitates execution in multiple environments - local or cloud
+
+- **Dependency Injection**: Harmonizes with Spring's  dependency injection, allowing smooth integration with Clean Architecture.
+
+- **Memory and performance optimisation**: Utilize Spring Native with GraalVM to improve start-up performance and memory utilisation.
+
+</v-clicks>
+
+<!--
+Spring cloud function essentially lets you run a spring app within your FaaS. 
+In that it is cloud agnostic. However just like terraform uit requires specific adapters for each cloud providers.
+Whereby entry point of the function has cloud specific configuration. So you speak the same language but you use dfferent words to decribe your function triggers.
+Importent for us soecifically for our clean architecture and separation of cloud specific code is the dependency injection. Where we inject implementations, such as integration with a cloud specific database, storage service, or messaging service into the business logic wihout coupling business logc to specific cloud provider.
+You can use Spring's extensive ecosystem. 
+You can even use GraalVM for performance optimisation, however in my experience this complexity is not needed because of moddern solutions like Lambda SnapStart (free for JVM) or Azure Function Elastic Premium plan (not free)
+
+-->
+
+---
+
+# AWS Function Code Examples
+Insure to include spring cloud function adapter in infrastructure layer dependencies.
+
+### build.gradle.kts in AWS infrastructure module:
+
+```kotlin
+implementation("org.springframework.cloud:spring-cloud-function-adapter-aws:4.2.2")
+```
+
+### AWS Lambda
+
 ```kotlin
 @Bean
-fun handleRequest(productService: ProductService): (Message<ProductRequest>) -> Product? {
-  return {
-    logger.info("Getting product with id ${it.payload.id}")
-    productService.find(it.payload.id)
-  }
+fun router(): Function<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent> {
+    return Function { event ->
+        APIGatewayProxyResponseEvent()
+            .withStatusCode(200)
+            .withBody("Hello VoxxedDays Amsterdam 2025!")
+    }
 }
 ```
 
-### build.gradle.kts:
+---
+
+# Azure Function Code Examples
+Insure to include spring cloud function adapter in infrastructure layer dependencies.
+
+### build.gradle.kts in Azure infrastructure module:
+
 ```kotlin
- implementation("org.springframework.cloud:spring-cloud-function-adapter-aws:4.0.5")
+implementation("org.springframework.cloud:spring-cloud-function-adapter-azure:4.2.2")
 ```
+
+### Azure function
+
+```kotlin
+@FunctionName("WiremockForwarder")
+    fun forwardToWiremock(
+        @HttpTrigger(
+            methods = [HttpMethod.POST, HttpMethod.GET, HttpMethod.PATCH, HttpMethod.PUT, HttpMethod.DELETE],
+            authLevel = AuthorizationLevel.FUNCTION,
+            name = "request", route = "wiremock/{*route}"
+        ) request: HttpRequestMessage<String>, context: ExecutionContext,
+    ): HttpResponseMessage {
+        return buildResponse(request)
+    }
+```
+
+
+---
+
+# 🧑‍💻 Live Coding – Part 2: Add Persistence
+
+<v-clicks>
+
+- Walk though persistence code for storing mock mappings
+- Extend business logic persistence integration
+- Deploy and Demo the updated "MockNest" on both AWS and Azure
+
+</v-clicks>
+
+<!--
+Let's update our Hello world Lambda and Azure function to use the busness logic which is a WireMock with some forwarding logic for serverless: 
+- update module dependencies
+- call business logic from functions
+
+-->
 
 ---
 
@@ -388,39 +484,22 @@ Generates terraform instead of cloud formation.
 ```kotlin
 
 val functionApp = LinuxFunctionApp(
-
-  this, "Terraform-Cdk-Kotlin-Azure-Function-JVM",
-
+  this, "SpringCloudExampleFunctionApp",
   LinuxFunctionAppConfig.builder()
-
-    .name(functionAppName)
-
+    .name("spring-clean-architecture-fun")
     // fun settings
-
     .siteConfig(
-
       LinuxFunctionAppSiteConfig.builder()
-
         .applicationStack(
-
           LinuxFunctionAppSiteConfigApplicationStack.builder()
-
             .javaVersion("17")
-
             .build()
-
         ).build()
-
     )
-
     .appSettings(
-
       // app settings
-
     )
-
     .build()
-
 )
 
 ```
@@ -443,8 +522,8 @@ val functionApp = LinuxFunctionApp(
       LambdaFunctionEnvironment.builder()
         .variables(
           mapOf(
-            "SPRING_CLOUD_FUNCTION_DEFINITION" to "handleRequest",
-            "MAIN_CLASS" to "com.example.clean.architecture.Application"
+            "SPRING_CLOUD_FUNCTION_DEFINITION" to "router",
+            "MAIN_CLASS" to "com.example.clean.architecture.Application",
         ).build()
     ).build()
 )
@@ -454,7 +533,7 @@ val functionApp = LinuxFunctionApp(
 
 # Deployment
 
-```yaml {all|4-5|10-11}
+```yaml {all|4-5|10-12}
 - name: Generate Terraform files
   run: |
     cd ${GITHUB_WORKSPACE}/cdk
@@ -464,41 +543,48 @@ val functionApp = LinuxFunctionApp(
 - name: Deploy with Terraform
   run: |
     cd ${GITHUB_WORKSPACE}/cdk/cdktf.out/stacks/${{ matrix.config.stack-name }}
-    terraform init
-    terraform apply -auto-approve
+    terraform init -reconfigure
+    terraform plan -out=tfplan
+    terraform apply -auto-approve tfplan
 ```
 
 <!--
 Generate Terraform Files
 
-- cdktf get: Fetches the dependencies required for the Terraform CDK code, such as provider plugins and modules.
-- cdktf synth: Translates the CDKTF code into Terraform JSON configuration files, synthesizing the high-level constructs into a format Terraform understands.
+- cdktf get: Fetches the dependencies required for the Terraform CDK code, such as necessary Terraform providers and modules referenced in your CDKTF code.
+- cdktf synth: Converts your Kotlin CDKTF code into Terraform JSON files.
 
 Deploy with Terraform
 
-- terraform init: Initializes the Terraform working directory, setting up the backend, and downloading the necessary provider plugins.
-- terraform apply -auto-approve: Applies the changes necessary to reach the desired state of the configuration, automatically approving the applied plan, thus making changes to the infrastructure.
+- terraform init -reconfigure
 
+Initializes the Terraform working directory (downloads providers, configures backends).
+-reconfigure forces Terraform to ignore any previously saved backend config and re-read it from main.tf.json.
+If you're using a remote backend like S3 (AWS), this ensures Terraform reads the real current state from there, instead of looking at a local .tfstate file.
+- terraform plan -out=tfplan
+
+Creates an execution plan by comparing the desired state (your Terraform files) with the current state (from the backend).
+The plan is saved to a file called tfplan.
+This file will then be used for the actual apply step, so you're guaranteed to apply exactly what was planned.
+
+- terraform apply -auto-approve tfplan
+
+Applies the previously generated plan (tfplan) without prompting for approval.
+This ensures only the changes you already reviewed or tested in the plan step are applied — no surprises.
 -->
 
 ---
+class: flex flex-col justify-center items-center h-[100vh] text-center space-y-4 px-8
+---
 
-# 🧑‍💻 Live Coding – Part 2: Add Persistence
+### <span class="text-4xl font-bold">Terraform</span>
 
-<v-clicks>
+### <span class="text-2xl">lets you speak the same language — just in a different dialect.</span>
 
-- Walk though persistence code for storing mock mappings  
-- Extend business logic persistence integration  
-- Deploy and Demo the updated "MockNest" on both AWS and Azure
-
-</v-clicks>
-
-<!--
-Let's update our Hello world Lambda and Azure function to use the busness logic which is a WireMock with some forwarding logic for serverless: 
-- update module dependencies
-- call business logic from functions
-
--->
+<span class="text-lg italic text-slate-600">
+Switching clouds doesn’t mean learning everything from scratch —  
+you already speak the language. It’s just a matter of picking up a few new words to match the local dialect.
+</span>
 
 ---
 
