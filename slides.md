@@ -38,11 +38,11 @@ transition: fade-out
 
 - ☁️🚀 **Serverless & FaaS**
 - 💡 **Kotlin on FaaS**
-- 🧹 **Clean Architecture**
-- 🧑‍💻 **Live Coding – Part 1**
+- 🧹 **Clean Architecture for Serverless**
+- 🧑‍💻 **Live Coding & Demo – Part 1**
 - 🧱 **Gradle Modules**
 - 🌱 **Spring Cloud Function**
-- 🧑‍💻 **Live Coding – Part 2**
+- 🧑‍💻 **Live Coding & Demo – Part 2**
 - 🌐 **Terraform CDK**
 - 🛠️ **Deployment**
 - 🗝️ **Key Takeaways**
