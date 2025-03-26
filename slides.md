@@ -287,10 +287,15 @@ AWS S3 and AWS lambda
 
 ---
 
-# Use Case - MockNest 
+# Use Case - MockNest
 _Serverless WireMock_
 
-<v-clicks>
+<br>
+
+<img src="UseCases.png" alt="Use Cases" class="max-w-[90%] max-h-[80vh] object-contain mx-auto" />
+
+<!--
+(Call AWS)
 
 - Mock any external REST or SOAP service
 
@@ -299,10 +304,6 @@ _Serverless WireMock_
 - Ability to run automated integration tests
 
 - Ability to test manually
-</v-clicks>
-
-
-<!--
 - MockNest should give you the ability to mock and REST or SOAP API by wiring requests to responses, this way you can test all sorts of situations including edge cases and error flows
 - You can switch between the real external service or the mock end point by just pointing at the appropriate URL
 - You can then set up your test scenarios for automated or manual tests, not for manual tests our mock data needs t remain persistent as out mock may scale down to 0 when no one is testing.
@@ -314,6 +315,10 @@ _Serverless WireMock_
 <br>
 
 <img src="AzureMockNest.png" alt="Solution Design" class="max-w-[60%] max-h-[60vh] object-contain mx-auto" />
+
+<!-- 
+(Call Azure)
+-->
 
 ---
 
@@ -328,9 +333,100 @@ _Serverless WireMock_
 </v-clicks>
 
 <!--
-Let's update our Hello world Lambda and Azure function to use the busness logic which is a WireMock with some forwarding logic for serverless: 
+Let's update our Hello world Lambda and Azure function to use the busness logic which is a WireMock with some forwarding logic for serverless:
 - update module dependencies
-- call business logic from functions
+```kotlin
+implementation(project(":domain"))
+```
+- wire in business logic from functions
+
+```kotlin
+private val handleWireMockRequest: HandleWireMockRequest,
+private val handleAdminRequest: HandleAdminRequest,
+```
+
+- Implement Azure wiremock request handling
+
+```kotlin
+val response = handleWireMockRequest(
+            HttpRequest(
+                org.springframework.http.HttpMethod.valueOf(request.httpMethod.name),
+                request.headers,
+                route,
+                request.queryParameters,
+                request.body
+            )
+        )
+```
+
+- Implement Azure wiremock response handling
+
+```kotlin
+val response = handleAdminRequest(
+            route ?: "",
+            HttpRequest(
+                SpringHttpMethod.valueOf(request.httpMethod.name),
+                request.headers,
+                route,
+                request.queryParameters,
+                request.body
+            )
+        )
+```
+
+- map wiremock response to azure api response
+
+```kotlin
+.createResponseBuilder(HttpStatus.valueOf(response.httpStatusCode.value()))
+            .let { responseBuilder ->
+                var builder = responseBuilder
+                response.headers?.forEach { header ->
+                    header.value.forEach {
+                        builder = builder.header(header.key, it)
+                    }
+                }
+                builder
+            }
+            .body(response.body)
+
+```
+- Add dependency and inject our request handling functions into AWS Lambda
+- Convert our Lambda secific request to oour domain object
+
+```kotlin
+ private fun APIGatewayProxyRequestEvent.createHttpRequest(path: String): HttpRequest {
+        val request = HttpRequest(
+            method = HttpMethod.valueOf(httpMethod),
+            headers = headers,
+            path = path,
+            queryParameters = queryStringParameters.orEmpty(),
+            body = body
+        )
+        return request
+    }
+```
+
+- call injected function and convert response
+
+```kotlin
+  with(event) {
+                logger.info { "MockNest request: $httpMethod $path $headers" }
+                if (path.startsWith(ADMIN_PREFIX)) {
+                    val adminPath = path.removePrefix(ADMIN_PREFIX)
+                    handleAdminRequest(adminPath, createHttpRequest(adminPath))
+                } else {
+                    handleWireMockRequest(createHttpRequest(path.removePrefix(WIREMOCK_PREFIX)))
+                }
+            }.let {
+                APIGatewayProxyResponseEvent()
+                    .withStatusCode(it.httpStatusCode.value())
+                    .withHeaders(it.headers?.toSingleValueMap())
+                    .withBody(it.body?.toString().orEmpty())
+            }
+```
+
+- build, commit and push
+
 
 -->
 
@@ -448,8 +544,40 @@ implementation("org.springframework.cloud:spring-cloud-function-adapter-azure:4.
 
 <!--
 Let's update our Hello world Lambda and Azure function to use the busness logic which is a WireMock with some forwarding logic for serverless: 
-- update module dependencies
+- inject repository
+```kotlin
+private val wireMockMappingRepository: WireMockMappingRepository,
+```
+
 - call business logic from functions
+
+- add stub mapping
+```kotlin
+ private fun saveStubMapping(mapping: StubMapping, bodyString: String, ): String {
+        return mapping.runCatching {
+            if (isPersistent) {
+                logger.info { "Saving persistent mapping with ID: $id" }
+                wireMockMappingRepository.saveMapping(id.toString(), bodyString).let { "Saved mapping $it" }
+            } else "Mapping ${mapping.id} not persistent"
+        }.onFailure {
+            logger.error(it) { "Failed to check or save persistent mapping: ${it.message}" }
+        }.getOrThrow()
+    }
+
+ saveStubMapping(mapping, bodyString)
+```
+
+- delete all mappings when we call reset
+```kotlin
+ // Delete all mappings from storage
+                    val storedMappings = wireMockMappingRepository.listMappings()
+                    storedMappings.forEach { mappingId ->
+                        logger.info { "Deleting stored WireMock mapping with ID: $mappingId" }
+                        wireMockMappingRepository.deleteMapping(mappingId)
+                    }
+```
+
+
 
 -->
 
@@ -549,6 +677,7 @@ val functionApp = LinuxFunctionApp(
 ```
 
 <!--
+(Run AWS)
 Generate Terraform Files
 
 - cdktf get: Fetches the dependencies required for the Terraform CDK code, such as necessary Terraform providers and modules referenced in your CDKTF code.
@@ -585,6 +714,11 @@ class: flex flex-col justify-center items-center h-[100vh] text-center space-y-4
 Switching clouds doesn’t mean learning everything from scratch —  
 you already speak the language. It’s just a matter of picking up a few new words to match the local dialect.
 </span>
+
+<!--
+(Run Azure)
+Open build and Check with audience deploymemt status
+-->
 
 ---
 
