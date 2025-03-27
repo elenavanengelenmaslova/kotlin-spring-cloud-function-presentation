@@ -48,21 +48,12 @@ transition: fade-out
 - 🗝️ **Key Takeaways**
 - ❓ **Q&A**
 
+
 <br>
 <br>
 
 
-<!--
-- Before we start with any coding, I will shortly introduce serverless and Function as a Service
-- We will look at why we chose Kotlin for serverless
-- Then I will discuss clean architecture for serverless
-- With live coding we will jump streight to craete a real world application, lets not do hello world anyone can do that. First part is where we actually replace hello world by wiring in and deploying same business logic to AWS Lambda and Azure function.
-- while we are deploying will will zoom into how we implemented gradle modules and talk about spring cloud function
-- We then do a quick demo of the results before starting net part of live coding
-- second part will involve actually plugging in cloud specific persistence to our portalble business logic without adding any cloud dependencies into the business logic code
-- again deploy tha and while deploying we will look at Terraform CDK in Kotlin
-- After deploy, we will demo the final results
--->
+
 
 <style>
 h1 {
@@ -77,9 +68,17 @@ h1 {
 </style>
 
 <!--
-Here is another comment.
+- Lets look at the talk structure
+- First I will introduce serverless and Function as a Service, why we should use it and when is it usefull
+- We will look at why we chose Kotlin for serverless
+- Then I will discuss clean architecture for serverless
+- With live coding we will jump streight to craete a real world application, lets not do hello world anyone can do that. First part is where we actually replace hello world by wiring in and deploying same business logic to AWS Lambda and Azure function.
+- while we are deploying will will zoom into how we implemented gradle modules and talk about spring cloud function
+- We then do a quick demo of the results before starting net part of live coding
+- second part will involve actually plugging in cloud specific persistence to our portalble business logic without adding any cloud dependencies into the business logic code
+- again deploy tha and while deploying we will look at Terraform CDK in Kotlin
+- After deploy, we will demo the final results
 -->
-
 
 ---
 transition: slide-up
