@@ -297,6 +297,9 @@ _Serverless WireMock_
 <!--
 (Call AWS)
 
+- We are going to basically run WireMock from our serverless FaaS with some persistence. Wiremock is a library that allows you to mock external APIs. How many of you used WireMock?
+- MockNest is usefull for external systems which are not accessible in your particular cloud environment, e.g. development, or where test data and edge cases are difficult to set up. e.g. time travel
+
 - Mock any external REST or SOAP service
 
 - Ability switch between mock and real service
@@ -307,6 +310,9 @@ _Serverless WireMock_
 - MockNest should give you the ability to mock and REST or SOAP API by wiring requests to responses, this way you can test all sorts of situations including edge cases and error flows
 - You can switch between the real external service or the mock end point by just pointing at the appropriate URL
 - You can then set up your test scenarios for automated or manual tests, not for manual tests our mock data needs t remain persistent as out mock may scale down to 0 when no one is testing.
+- It should be persistent because we are on serverless
+
+
 -->
 
 ---
@@ -318,6 +324,8 @@ _Serverless WireMock_
 
 <!-- 
 (Call Azure)
+
+So wer are not using a Hello world, however the use case is still simple, we hve some business logic which requires some persistence, and we are using a cloud specific service for this persistence. In AWS we will use S3, and in Azure we are using Blob Storage. These are exactly what we need to store our mock configuration.
 -->
 
 ---
@@ -470,12 +478,12 @@ Enables you to run your function implementation as a Spring app
 </v-clicks>
 
 <!--
-Spring cloud function essentially lets you run a spring app within your FaaS. 
-In that it is cloud agnostic. However just like terraform uit requires specific adapters for each cloud providers.
-Whereby entry point of the function has cloud specific configuration. So you speak the same language but you use dfferent words to decribe your function triggers.
-Importent for us soecifically for our clean architecture and separation of cloud specific code is the dependency injection. Where we inject implementations, such as integration with a cloud specific database, storage service, or messaging service into the business logic wihout coupling business logc to specific cloud provider.
-You can use Spring's extensive ecosystem. 
-You can even use GraalVM for performance optimisation, however in my experience this complexity is not needed because of moddern solutions like Lambda SnapStart (free for JVM) or Azure Function Elastic Premium plan (not free)
+- Spring cloud function essentially lets you run a spring app within your FaaS. 
+In that it is cloud agnostic. However just like terraform it requires specific adapters for each cloud providers.
+- Whereby entry point of the function has cloud specific configuration. So you speak the same language but you use dufferent dialecvt to describe your function triggers. Nice try spring with generic object model..
+- Important for us specifically for our clean architecture and separation of cloud specific code is the dependency injection. Where we inject implementations, such as integration with a cloud specific database, storage service, or messaging service into the business logic wihout coupling business logc to specific cloud provider.
+- You can use Spring's extensive ecosystem. 
+- You can even use GraalVM for performance optimisation, however in my experience this complexity is not needed because of moddern solutions like Lambda SnapStart (free for JVM) or Azure Function Elastic Premium plan (not free)
 
 -->
 
@@ -529,8 +537,12 @@ implementation("org.springframework.cloud:spring-cloud-function-adapter-azure:4.
     }
 ```
 
+---
+
+# Demo 1
 
 ---
+
 
 # 🧑‍💻 Live Coding – Part 2: Add Persistence
 
@@ -698,7 +710,7 @@ This file will then be used for the actual apply step, so you're guaranteed to a
 
 - terraform apply -auto-approve tfplan
 
-Applies the previously generated plan (tfplan) without prompting for approval.
+Applies the previously generated plan (tfplan) without prompting for approval. What could possibly go wrong? ;)
 This ensures only the changes you already reviewed or tested in the plan step are applied — no surprises.
 -->
 
@@ -719,6 +731,10 @@ you already speak the language. It’s just a matter of picking up a few new wor
 (Run Azure)
 Open build and Check with audience deploymemt status
 -->
+
+---
+
+# Demo 2
 
 ---
 
