@@ -1,22 +1,15 @@
 ---
-# try also 'default' to start simple
 theme: default
 background: cover.jpeg
-# apply any windi css classes to the current slide
-class: 'text-center'
-# https://sli.dev/custom/highlighters.html
+class: text-center
 highlighter: prism
 canvasWidth: 800
-# show line numbers in code blocks
 lineNumbers: true
-
-# persist drawings in exports and build
 drawings:
   persist: false
-# page transition
 transition: slide-up
-# use UnoCSS
 css: unocss
+title: 'Clean Architecture for Serverless: Business Logic You Can Take Anywhere'
 ---
 
 # Clean Architecture for Serverless: Business Logic You Can Take Anywhere
@@ -26,9 +19,32 @@ css: unocss
 </div>
 
 
-<!--
-The last comment block of each slide will be treated as slide notes. It will be visible and editable in Presenter Mode along with the slide. [Read more in the docs](https://sli.dev/guide/syntax.html#notes)
--->
+---
+class: flex flex-col justify-center items-center h-[100vh] space-y-6 px-8
+---
+
+# Hi, I'm Elena van Engelen 👋
+
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center w-full max-w-6xl">
+
+  <!-- Left: Photo -->
+  <div class="flex justify-center">
+    <img src="/carnaval-family.jpg" alt="My family at Dutch Carnaval" class="rounded-xl shadow-lg max-h-[60vh]" />
+  </div>
+
+  <!-- Right: Bio -->
+  <div class="text-left space-y-4 text-lg leading-relaxed text-slate-700">
+    <p><strong>Senior Software Engineer</strong> specializing in Kotlin and cloud-native applications.</p>
+    <p>Currently working at <strong>AZL (Life & Pensions – NN Group)</strong>.</p>
+    <p><strong>Author</strong> of <em>Kotlin Crash Course</em> and a <strong>blogger</strong> on Kotlin & cloud topics.</p>
+    <hr class="border-slate-300" />
+    <p class="italic text-slate-600">
+      "I explain why Kotlin and cloud is so much fun. They explain why Carnaval is so much fun.<br />
+      We’ve reached perfect mutual confusion."
+    </p>
+  </div>
+
+</div>
 
 ---
 transition: fade-out
@@ -148,17 +164,24 @@ Examples of FaaS: AWS Lambda and Azure Function
 FaaS provides an efficient and flexible way to create specific functionalities without the weight of managing the underlying infrastructure. The applications of serverless are diverse. From developing microservices, creating RESTful backends, managing stream processing, handling real-time file uploads, and conducting data processing, serverless provides a flexible and developer-friendly platform to build varied solutions
 -->
 
----
-class: flex flex-col justify-center items-center h-[100vh] space-y-4
----
+[//]: # (---)
 
-# FaaS on as-used basis
+[//]: # (class: flex flex-col justify-center items-center h-[100vh] space-y-4)
 
-<img src="/FaaSAutoscaling.png" alt="FaaSAutoscaling" style="width: 60%; height: auto;" />
+[//]: # (---)
 
-<!--
-Example from online shop (bol.com) about season reparation for each and every application
--->
+[//]: # ()
+[//]: # (# FaaS on as-used basis)
+
+[//]: # ()
+[//]: # (<img src="/FaaSAutoscaling.png" alt="FaaSAutoscaling" style="width: 60%; height: auto;" />)
+
+[//]: # ()
+[//]: # (<!--)
+
+[//]: # (Example from online shop &#40;bol.com&#41; about season reparation for each and every application)
+
+[//]: # (-->)
 
 ---
 class: flex flex-col justify-center items-center h-[100vh] text-center space-y-4 px-8
@@ -227,28 +250,47 @@ Clean Architecture allows us to create a system that is:
 In the context of FaaS and serverless, it provides a pathway to ensure that our functions are not tightly bound to a specific cloud provider's APIs or services, ensuring that our application logic remains versatile, testable, and scalable, while also being easy to migrate between different platforms.
 
 -->
----
-class: flex flex-col justify-start items-center h-[100vh] space-y-6 px-8
----
 
-# Too Complex for FaaS?
+[//]: # (---)
 
-<div class="grid grid-cols-3 gap-4 w-full justify-items-center">
-  <div class="flex flex-col items-center space-y-2">
-    <img src="/Onion.png" alt="Onion Architecture" class="h-[35vh] object-contain" />
-    <span class="text-center text-base text-slate-600">Onion Architecture</span>
-  </div>
+[//]: # (class: flex flex-col justify-start items-center h-[100vh] space-y-6 px-8)
 
-  <div class="flex flex-col items-center space-y-2">
-    <img src="/Hexagonal.png" alt="Hexagonal Architecture" class="h-[35vh] object-contain" />
-    <span class="text-center text-base text-slate-600">Hexagonal Architecture</span>
-  </div>
+[//]: # ()
+[//]: # (---)
 
-  <div class="flex flex-col items-center space-y-2">
-    <img src="/FullClean.jpeg" alt="Clean Architecture" class="h-[35vh] object-contain" />
-    <span class="text-center text-base text-slate-600">Clean Architecture</span>
-  </div>
-</div>
+[//]: # ()
+[//]: # (# Too Complex for FaaS?)
+
+[//]: # ()
+[//]: # (<div class="grid grid-cols-3 gap-4 w-full justify-items-center">)
+
+[//]: # (  <div class="flex flex-col items-center space-y-2">)
+
+[//]: # (    <img src="/Onion.png" alt="Onion Architecture" class="h-[35vh] object-contain" />)
+
+[//]: # (    <span class="text-center text-base text-slate-600">Onion Architecture</span>)
+
+[//]: # (  </div>)
+
+[//]: # ()
+[//]: # (  <div class="flex flex-col items-center space-y-2">)
+
+[//]: # (    <img src="/Hexagonal.png" alt="Hexagonal Architecture" class="h-[35vh] object-contain" />)
+
+[//]: # (    <span class="text-center text-base text-slate-600">Hexagonal Architecture</span>)
+
+[//]: # (  </div>)
+
+[//]: # ()
+[//]: # (  <div class="flex flex-col items-center space-y-2">)
+
+[//]: # (    <img src="/FullClean.jpeg" alt="Clean Architecture" class="h-[35vh] object-contain" />)
+
+[//]: # (    <span class="text-center text-base text-slate-600">Clean Architecture</span>)
+
+[//]: # (  </div>)
+
+[//]: # (</div>)
 
 ---
 class: flex flex-col justify-center items-center h-[100vh] space-y-4
@@ -302,7 +344,7 @@ _Serverless WireMock_
 <img src="UseCases.png" alt="Use Cases" class="max-w-[90%] max-h-[80vh] object-contain mx-auto" />
 
 <!--
-(Call AWS)
+(Call AWS & Azure hello world)
 
 - We are going to basically run WireMock from our serverless FaaS with some persistence. Wiremock is a library that allows you to mock external APIs. How many of you used WireMock?
 - MockNest is usefull for external systems which are not accessible in your particular cloud environment, e.g. development, or where test data and edge cases are difficult to set up. e.g. time travel
@@ -808,5 +850,3 @@ Feel free to ask anything — architecture, Kotlin, or serverless!
 <!-- 
  If you thought this is cool but i first need to brush up on my Kotlin before deploying to cloud, then I recommend my book. at the end, lucky chapter 13 guides you through deploying an event driven serverless app
 -->
-
-
