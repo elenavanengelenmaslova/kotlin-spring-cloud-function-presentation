@@ -476,12 +476,12 @@ preload: false
     v-motion
     :initial="{ x: 0, y: 0 }"
     :enter="{ 
-      x: -185, 
+      x: -190, 
       y: 115,
       transition: { delay: 300, duration: 1000 }
     }"
   >
-    <img src="/businessLogic.png" class="w-20" />
+    <img src="/BusinessLogic.png" class="w-20" />
   </div>
 
   <!-- Business Logic flying to Azure Function -->
@@ -490,12 +490,12 @@ preload: false
     v-motion
     :initial="{ x: 0, y: 0 }"
     :enter="{ 
-      x: 135, 
+      x: 115, 
       y: 115,
       transition: { delay: 500, duration: 1000 }
     }"
   >
-    <img src="/businessLogic.png" class="w-20" />
+    <img src="/BusinessLogic.png" class="w-20" />
   </div>
 
 </div>
