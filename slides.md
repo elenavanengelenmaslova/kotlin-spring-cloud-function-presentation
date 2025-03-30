@@ -243,8 +243,8 @@ implementation("org.springframework.cloud:spring-cloud-function-adapter-azure:4.
 ### Azure function
 
 ```kotlin
-@FunctionName("MockNestForwarder")
-fun forwardToMockNest(
+@FunctionName("RequestForwarder")
+fun forwardClientRequest(
     @HttpTrigger(
         methods = [HttpMethod.POST, HttpMethod.GET, HttpMethod.PATCH, HttpMethod.PUT, HttpMethod.DELETE],
         authLevel = AuthorizationLevel.FUNCTION,
