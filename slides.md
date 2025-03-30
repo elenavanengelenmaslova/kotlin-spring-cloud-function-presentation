@@ -456,7 +456,7 @@ So wer are not using a Hello world, however the use case is still simple, we hve
 preload: false
 ---
 
-# 🧑‍💻 Live Coding: From Hello World to Business Logic
+# 🧑‍💻 From Hello World to Business Logic
 
 <div class="w-full relative h-[28rem] flex justify-center items-center">
 
@@ -498,8 +498,33 @@ preload: false
     <img src="/BusinessLogic.png" class="w-20" />
   </div>
 
+ <!-- Arrow to S3 (above business logic box) -->
+<div
+  class="absolute top-[12%] left-[26%] z-0"
+  v-motion
+  :initial="{ opacity: 0 }"
+  :enter="{ 
+    opacity: 1,
+    transition: { delay: 1500, duration: 600 }
+  }"
+>
+  <img src="/ArrowS3.png" class="w-32" />
 </div>
 
+<!-- Arrow to Blob Storage -->
+<div
+  class="absolute top-[18%] right-[26%] z-0"
+  v-motion
+  :initial="{ opacity: 0 }"
+  :enter="{ 
+    opacity: 1,
+    transition: { delay: 1500, duration: 600 }
+  }"
+>
+  <img src="/ArrowBlobStorage.png" class="w-32" />
+</div>
+
+</div>
 
 
 
@@ -637,6 +662,9 @@ private val wireMockMappingRepository: WireMockMappingRepository,
 -->
 
 ---
+layout: image-right
+image: /TerraformCDK.png
+---
 
 # Terraform CDK
 
@@ -729,8 +757,10 @@ Open build and Check with audience deploymemt status
 -->
 
 ---
+layout: center
+---
 
-# Demo 2
+# Demo 👀
 
 ---
 
