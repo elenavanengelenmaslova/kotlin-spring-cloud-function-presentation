@@ -54,6 +54,12 @@ class: px-8
 
 </v-clicks>
 
+<!--
+- 3- mins
+- who has been to dutch carnaval? Ok, so I still do not get it, but I tag along for my family's sake :). They also put up with my coding in the weekends so its mutual ;).
+Anyway, lets get started!
+-->
+
 ---
 transition: fade-out
 ---
@@ -91,7 +97,9 @@ h1 {
 </style>
 
 <!--
--- TODO
+
+- 1 min
+
 -->
 
 ---
@@ -115,6 +123,8 @@ image: /Scaling.png
 </v-clicks>
 
 <!--
+- 2 mins
+
 Serverless doesn’t mean there are no servers — it just means you don’t have to manage them.
 
 Resources on as-used basis:
@@ -161,7 +171,7 @@ image: /SpringCloudFunction.png
 </v-clicks>
 
 <!--
-
+- 2 mins
 - Cloud Agnostic: Enables apps to run across AWS Lambda, Azure Functions, or locally without code changes.
 - Adaptable: Supports web endpoints, streaming, or background tasks with the same function.
 - Spring Boot Features: You get dependency injection, config, and metrics even in FaaS.
@@ -201,6 +211,10 @@ fun router(): Function<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent
 
 </v-clicks>
 
+<!-- 
+- 2 mins
+-->
+
 ---
 
 # Terraform CDK - AWS example
@@ -225,6 +239,12 @@ fun router(): Function<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent
                 ).build()
         )
 ```
+
+<!--
+- 1 min
+- call AWS and Azure
+
+-->
 
 ---
 
@@ -258,6 +278,10 @@ fun forwardClientRequest(
 
 </v-clicks>
 
+<!-- 
+- 2mins
+-->
+
 ---
 
 # Terrform CDK - Azure example
@@ -284,6 +308,10 @@ val functionApp = LinuxFunctionApp(
 )
 
 ```
+
+<!--
+- 1 min
+-->
 
 ---
 preload: false
@@ -347,6 +375,8 @@ setTimeout(() => {
 </script>
 
 <!--
+- 1 min
+- 5 mins demo
 
 Because let's face it — anyone can deploy Hello World.
 
@@ -366,6 +396,7 @@ class: flex flex-col justify-center items-center h-[100vh] space-y-4
 
 
 <!--
+- 4 mins
 - **Separation of Concerns**: Different aspects of software development (use case business rules, domain logic,
   integration logic) are isolated from each other.
 
@@ -376,6 +407,9 @@ class: flex flex-col justify-center items-center h-[100vh] space-y-4
 - **Minimizing Cloud Lock-in**: Easily switch between AWS, Azure, or others, with business logic unaware of the
   underlying cloud provider.
 
+Imagine we are build a pension administration microservice, 
+- in domain we might have Participant, ParticipantRelation, PensionFund
+- in application we have use case business logic, for example process employment, marriage, divorce, death
 
 -->
 
@@ -397,19 +431,13 @@ class: flex flex-col justify-center items-center h-[100vh] space-y-4
 ```
 
 <!--
+- 1 min
 Imagine we are build a pension administration microservice, 
-- in domain we might have Participant, ParticipantRelation, PensionFund
-- in application we have use case business logic, for example process employment, marriage, divorce, death
+- sofware domain we have domain specific code
+- in application we have use case business logic, and interfaces 
 - infra has integration to our cloud specific service, e.g. Azure blob storage & Service Bus or AWS S3 and Event Bridge
 - cdk has cloud specific infrastructure as code
 
-
-MockNest: 
-- in domain we would have everything with mocking, in our case wiremock has all the logic so we do not have much here
-- in application we have use case business logic, so actual forwarding logic to wiremock, and also any extra functionality specific for the use cases rather than domain
-- infra has integration to our cloud specific service, e.g. Azure blob storage and Azure function
-AWS S3 and AWS lambda
-- cdk has cloud specific infrastructure as code
 -->
 
 ---
@@ -446,6 +474,8 @@ dependencies {
 <img src="/SolutionDesign.png" alt="Solution Design" class="max-w-[60%] max-h-[60vh] object-contain mx-auto" />
 
 <!-- 
+
+- 1 mins
 (Call Azure)
 
 So wer are not using a Hello world, however the use case is still simple, we hve some business logic which requires some persistence, and we are using a cloud specific service for this persistence. In AWS we will use S3, and in Azure we are using Blob Storage. These are exactly what we need to store our mock configuration.
@@ -537,14 +567,14 @@ implementation(project(":domain"))
 - wire in business logic from functions
 
 ```kotlin
-private val handleWireMockRequest: HandleWireMockRequest,
+private val handleClientRequest: HandleClientRequest,
 private val handleAdminRequest: HandleAdminRequest,
 ```
 
-- Implement Azure wiremock request handling
+- Implement Azure client request handling
 
 ```kotlin
-val response = handleWireMockRequest(
+val response = handleClientRequest(
             HttpRequest(
                 org.springframework.http.HttpMethod.valueOf(request.httpMethod.name),
                 request.headers,
@@ -587,7 +617,7 @@ val response = handleAdminRequest(
 
 ```
 - Add dependency and inject our request handling functions into AWS Lambda
-- Convert our Lambda secific request to oour domain object
+- Convert our Lambda specific request to our domain object
 
 ```kotlin
  private fun APIGatewayProxyRequestEvent.createHttpRequest(path: String): HttpRequest {
@@ -611,7 +641,7 @@ val response = handleAdminRequest(
                     val adminPath = path.removePrefix(ADMIN_PREFIX)
                     handleAdminRequest(adminPath, createHttpRequest(adminPath))
                 } else {
-                    handleWireMockRequest(createHttpRequest(path.removePrefix(WIREMOCK_PREFIX)))
+                    handleClientRequest(createHttpRequest(path.removePrefix(MOCKNEST_PREFIX)))
                 }
             }.let {
                 APIGatewayProxyResponseEvent()
@@ -625,7 +655,7 @@ val response = handleAdminRequest(
 Let's update our Hello world Lambda and Azure function to use the busness logic which is a WireMock with some forwarding logic for serverless: 
 - inject repository
 ```kotlin
-private val wireMockMappingRepository: WireMockMappingRepository,
+private val objectStorage: ObjectStorageInterface,
 ```
 
 - call business logic from functions
@@ -636,7 +666,7 @@ private val wireMockMappingRepository: WireMockMappingRepository,
         return mapping.runCatching {
             if (isPersistent) {
                 logger.info { "Saving persistent mapping with ID: $id" }
-                wireMockMappingRepository.saveMapping(id.toString(), bodyString).let { "Saved mapping $it" }
+                objectStorage.saveMapping(id.toString(), bodyString).let { "Saved mapping $it" }
             } else "Mapping ${mapping.id} not persistent"
         }.onFailure {
             logger.error(it) { "Failed to check or save persistent mapping: ${it.message}" }
@@ -649,10 +679,10 @@ private val wireMockMappingRepository: WireMockMappingRepository,
 - delete all mappings when we call reset
 ```kotlin
  // Delete all mappings from storage
-                    val storedMappings = wireMockMappingRepository.listMappings()
+                    val storedMappings = objectStorage.listMappings()
                     storedMappings.forEach { mappingId ->
                         logger.info { "Deleting stored WireMock mapping with ID: $mappingId" }
-                        wireMockMappingRepository.deleteMapping(mappingId)
+                        objectStorage.deleteMapping(mappingId)
                     }
 ```
 
@@ -681,6 +711,7 @@ image: /TerraformCDK.png
 </v-clicks>
 
 <!--
+- 1 min
 **Multi language support**: Utilize familiar programming languages like Kotlin, Java or TypeScript for infrastructure
   code.
 
@@ -713,6 +744,7 @@ image: /TerraformCDK.png
 ```
 
 <!--
+- 1 m
 (Run AWS)
 Generate Terraform Files
 
@@ -752,7 +784,6 @@ you already speak the language. It’s just a matter of picking up a few new wor
 </span>
 
 <!--
-(Run Azure)
 Open build and Check with audience deploymemt status
 -->
 
@@ -762,6 +793,9 @@ layout: center
 
 # Demo 👀
 
+<!--
+- 5 mins
+-->
 ---
 
 # Key Takeaways
@@ -781,7 +815,7 @@ To conclude...
 </v-clicks>
 
 <!-- 
-
+- 2 mins
 🧹 **Keep Business Logic Clean and Cloud-Agnostic**  
 Use Clean Architecture and Spring Cloud Function to isolate business logic from cloud-specific code.
 
@@ -833,5 +867,10 @@ Feel free to ask anything — architecture, Kotlin, or serverless!
 
 
 <!-- 
- If you thought this is cool but i first need to brush up on my Kotlin before deploying to cloud, then I recommend my book. at the end, lucky chapter 13 guides you through deploying an event driven serverless app
+At the end of my Kotlin Crash Course book, chapter 13 walks you through building and deploying an event-driven serverless app with Kotlin on AWS.
+
+If you want to keep learning, I’ve created a 15% discount code just for Voxxed Days — valid until May 31.
+
+And if you’d like to stay in touch or ask follow-up questions after today, feel free to connect with me through my website or socials.
 -->
+
