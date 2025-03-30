@@ -383,7 +383,7 @@ class: flex flex-col justify-center items-center h-[100vh] space-y-4
 
 # Clean Architecture - with gradle modules
 
-```
+```css {all|1-3|4-5,8-9|4,6,8,10}
 ├── software/            // Holds all the application code
 │   ├── domain/
 │   ├── application/
@@ -443,7 +443,7 @@ dependencies {
 
 <br>
 
-<img src="SpringCloudFunction.png" alt="Solution Design" class="max-w-[60%] max-h-[60vh] object-contain mx-auto" />
+<img src="SolutionDesign.png" alt="Solution Design" class="max-w-[60%] max-h-[60vh] object-contain mx-auto" />
 
 <!-- 
 (Call Azure)
