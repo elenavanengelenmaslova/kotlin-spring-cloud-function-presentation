@@ -443,7 +443,7 @@ dependencies {
 
 <br>
 
-<img src="SolutionDesign.png" alt="Solution Design" class="max-w-[60%] max-h-[60vh] object-contain mx-auto" />
+<img src="/SolutionDesign.png" alt="Solution Design" class="max-w-[60%] max-h-[60vh] object-contain mx-auto" />
 
 <!-- 
 (Call Azure)
