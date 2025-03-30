@@ -184,8 +184,6 @@ image: /SpringCloudFunction.png
 
 # AWS Function Code Examples
 
-Insure to include spring cloud function adapter in infrastructure layer dependencies.
-
 <v-clicks>
 
 ### build.gradle.kts in AWS infrastructure module:
@@ -243,14 +241,12 @@ fun router(): Function<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent
 <!--
 - 1 min
 - call AWS and Azure
-
+- Insure to include spring cloud function adapter in infrastructure layer dependencies.
 -->
 
 ---
 
 # Azure Function Code Examples
-
-Insure to include spring cloud function adapter in infrastructure layer dependencies.
 
 <v-clicks>
 
@@ -284,7 +280,7 @@ fun forwardClientRequest(
 
 ---
 
-# Terrform CDK - Azure example
+# Terraform CDK - Azure example
 
 ```kotlin
 
