@@ -451,9 +451,57 @@ dependencies {
 So wer are not using a Hello world, however the use case is still simple, we hve some business logic which requires some persistence, and we are using a cloud specific service for this persistence. In AWS we will use S3, and in Azure we are using Blob Storage. These are exactly what we need to store our mock configuration.
 -->
 
+
+---
+preload: false
 ---
 
 # 🧑‍💻 Live Coding: From Hello World to Business Logic
+
+<div class="w-full relative h-[28rem] flex justify-center items-center">
+
+  <!-- AWS Lambda -->
+  <div class="absolute top-[42%] left-[20%] z-0">
+    <img src="/AwsLambda.png" class="w-28" />
+  </div>
+
+  <!-- Azure Function -->
+  <div class="absolute top-[42%] right-[20%] z-0">
+    <img src="/AzureFunctions.png" class="w-28" />
+  </div>
+
+  <!-- Business Logic flying to AWS Lambda -->
+  <div
+    class="absolute top-6 left-1/2 -translate-x-1/2 z-10"
+    v-motion
+    :initial="{ x: 0, y: 0 }"
+    :enter="{ 
+      x: -185, 
+      y: 115,
+      transition: { delay: 300, duration: 1000 }
+    }"
+  >
+    <img src="/businessLogic.png" class="w-20" />
+  </div>
+
+  <!-- Business Logic flying to Azure Function -->
+  <div
+    class="absolute top-6 left-1/2 -translate-x-1/2 z-10"
+    v-motion
+    :initial="{ x: 0, y: 0 }"
+    :enter="{ 
+      x: 135, 
+      y: 115,
+      transition: { delay: 500, duration: 1000 }
+    }"
+  >
+    <img src="/businessLogic.png" class="w-20" />
+  </div>
+
+</div>
+
+
+
 
 <!--
 Let's update our Hello world Lambda and Azure function to use the busness logic which is a WireMock with some forwarding logic for serverless:
