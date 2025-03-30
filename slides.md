@@ -285,12 +285,76 @@ val functionApp = LinuxFunctionApp(
 
 ```
 
-
+---
+preload: false
 ---
 
-# Hello world
+# Spoiler Alert 🚨
 
----
+Hello World is already racing —  
+we’re not going to build it.  
+We’re going to upgrade it.
+
+<div class="w-full relative mt-6">
+  <div class="relative w-80 h-80">
+    <img
+      v-motion
+      :initial="{ x: 800 }"
+      :enter="final"
+      class="absolute top-0 left-0 right-0 bottom-0"
+      src="https://cdn-4.motorsport.com/images/amp/63vxMQEY/s1000/formula-1-red-bull-racing-laun-2.jpg"
+    />
+  </div>
+
+  <div
+    class="text-5xl absolute bottom-16 left-40 text-[#2B90B6] z-10"
+    v-motion
+    :initial="{ x: -80, opacity: 0}"
+    :enter="{ x: -7, opacity: 1, transition: { delay: 2000, duration: 1000 } }">
+    Fast-forward to
+  </div>
+
+<div
+  class="text-5xl absolute bottom-16 left-[calc(50%+12rem)] z-10 font-mono text-pink-600 tracking-tight"
+  v-motion
+  :initial="{ y: 100, opacity: 0}"
+  :enter="{ y: -4, opacity: 1, transition: { delay: 3500, duration: 1000 } }"
+>
+  Hello World
+</div>
+
+
+</div>
+
+<script setup lang="ts">
+const final = {
+  x: 0,
+  y: 0,
+  rotate: 0,
+  scale: 1,
+  transition: {
+    type: 'spring',
+    damping: 10,
+    stiffness: 20,
+    mass: 2
+  }
+}
+
+setTimeout(() => {
+  const el = document.getElementById('replaceK');
+  if (el) el.style.opacity = "0";
+}, 3500);
+</script>
+
+<!--
+
+Because let's face it — anyone can deploy Hello World.
+
+But before we move on, let’s take a moment to understand what that deployment is actually doing.
+
+Then we’ll live-code how to use Clean Architecture with Spring Cloud Function to inject real business logic into both AWS and Azure — while keeping cloud-specific code separate from the core logic.
+
+-->
 
 ---
 class: flex flex-col justify-center items-center h-[100vh] space-y-4
