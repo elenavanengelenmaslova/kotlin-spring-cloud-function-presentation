@@ -1,5 +1,6 @@
 ---
 theme: default
+colorSchema: light
 background: cover.jpeg
 class: text-center
 highlighter: prism
@@ -185,7 +186,7 @@ image: /SpringCloudFunction.png
 
 ---
 
-# AWS Function Code Examples
+# AWS Lambda Code Examples
 
 <v-clicks>
 
@@ -199,7 +200,7 @@ implementation("org.springframework.cloud:spring-cloud-function-adapter-aws:4.2.
 
 ### AWS Lambda
 
-```kotlin
+```kotlin {all|2,8}
 @Bean
 fun router(): Function<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent> {
     return Function { event ->
@@ -261,7 +262,7 @@ implementation("org.springframework.cloud:spring-cloud-function-adapter-azure:4.
 
 ### Azure function
 
-```kotlin
+```kotlin {all|1,3-9,11}
 @FunctionName("RequestForwarder")
 fun forwardClientRequest(
     @HttpTrigger(
@@ -285,23 +286,19 @@ fun forwardClientRequest(
 
 # Terraform CDK - Azure example
 
-```kotlin
-
+```kotlin {all|11}
 val functionApp = LinuxFunctionApp(
     this, "SpringCloudExampleFunctionApp",
     LinuxFunctionAppConfig.builder()
         .name("spring-clean-architecture-fun")
         // fun settings
         .siteConfig(
-            LinuxFunctionAppSiteConfig.builder()
-                .applicationStack(
-                    LinuxFunctionAppSiteConfigApplicationStack.builder()
-                        .javaVersion("17")
-                        .build()
-                ).build()
+           // sit config   
         )
         .appSettings(
-            // app settings
+            mapOf(
+                "MAIN_CLASS" to "com.example.clean.architecture.Application",
+            )
         )
         .build()
 )
