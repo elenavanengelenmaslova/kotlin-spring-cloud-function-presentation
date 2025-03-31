@@ -18,6 +18,10 @@ title: 'Clean Architecture for Serverless: Business Logic You Can Take Anywhere'
     Elena van Engelen - Maslova
 </div>
 
+<!--
+Wow! what a great crowd! Thank you for being here!
+next slide
+-->
 ---
 class: px-8
 ---
@@ -112,9 +116,9 @@ image: /Scaling.png
 
 <v-clicks>
 
-- Resources on As-Used Basis
-
 - No Infrastructure to Manage
+
+- Resources on As-Used Basis
 
 - Scales Automatically
 
@@ -127,11 +131,11 @@ image: /Scaling.png
 
 Serverless doesn’t mean there are no servers — it just means you don’t have to manage them.
 
-Resources on as-used basis:
-Serverless is very resource-efficient — you only pay for the compute time you actually consume. It scales to zero when there's no traffic, so you're not paying for idle capacity.
-
 No infrastructure to manage:
 You don’t need to manage or patch servers. That’s handled by the cloud provider. This frees you up to focus on writing business logic instead of operations.
+
+Resources on as-used basis:
+Serverless is very resource-efficient — you only pay for the compute time you actually consume. It scales to zero when there's no traffic, so you're not paying for idle capacity.
 
 Scales automatically:
 Serverless functions adjust automatically to load — they scale up during high traffic and back down when it's quiet, without manual intervention.
@@ -162,7 +166,7 @@ image: /SpringCloudFunction.png
 
 <v-clicks>
 
-- Cloud Agnostic
+- Runs Spring app on FaaS
 
 - Adaptable to Environments
 
@@ -172,10 +176,9 @@ image: /SpringCloudFunction.png
 
 <!--
 - 2 mins
-- Cloud Agnostic: Enables apps to run across AWS Lambda, Azure Functions, or locally without code changes.
-- Adaptable: Supports web endpoints, streaming, or background tasks with the same function.
+- Runs Spring app on FaaS: Enables you to Run you function as a Spring app.
+- Adaptable: Supports running locally or on cloud.
 - Spring Boot Features: You get dependency injection, config, and metrics even in FaaS.
-- GraalVM: Optimizes cold start, though AWS SnapStart or Azure Premium are alternatives.
 
 - Call AWS and Azure health check
 -->
