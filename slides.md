@@ -150,13 +150,12 @@ Functions are invoked by events, like HTTP requests, messages, or file uploads. 
 class: flex flex-col justify-center items-center h-[100vh] text-center space-y-4 px-8
 ---
 
-### <span class="text-4xl font-bold">Using FaaS for your cloud applications</span>
+### <span class="text-4xl font-bold">Using FaaS makes life easier</span>
 
-### <span class="text-2xl">is like using a food delivery service for your meals.</span>
+### <span class="text-2xl">but what about Portability?</span>
 
 <span class="text-lg italic text-slate-600">
-You get exactly what you want, when you want it —  
-without dealing with the mess of cooking (or managing servers) yourself!
+Let's see how Spring Cloud Function, Clean Architecture, and Gradle modules make your business logic Cloud-Agnostic!
 </span>
 
 
