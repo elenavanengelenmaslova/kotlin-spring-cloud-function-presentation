@@ -69,7 +69,7 @@ Anyway, lets get started!
 transition: fade-out
 ---
 
-# Overview
+# Clean Architecture for Serverless
 
 <v-clicks>
 
@@ -104,7 +104,8 @@ h1 {
 <!--
 
 - 1 min
-
+- In a mix of live coding with presentation I will show how you can use Spring Cloud Function with clean architecture to keep business logic cloud-agnostic.
+- We will also look briefly at Infrastructure as code with terraform CDK and deployment
 -->
 
 ---
