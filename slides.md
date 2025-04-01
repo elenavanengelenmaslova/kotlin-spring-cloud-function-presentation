@@ -168,21 +168,20 @@ image: /SpringCloudFunction.png
 
 <v-clicks>
 
-- Runs Spring app on FaaS
-
-- Adaptable to Environments
+- Runs your function as a Spring App
 
 - Spring Boot Features
+
+- Adaptable to Environments
 
 </v-clicks>
 
 <!--
 - 2 mins
 - Runs Spring app on FaaS: Enables you to Run you function as a Spring app.
-- Adaptable: Supports running locally or on cloud.
 - Spring Boot Features: You get dependency injection, config, and metrics even in FaaS.
+- Adaptable: Supports running locally or on cloud.
 
-- Call AWS and Azure health check
 -->
 
 ---
