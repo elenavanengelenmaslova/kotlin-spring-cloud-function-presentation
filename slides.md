@@ -183,6 +183,68 @@ image: /SpringCloudFunction.png
 
 -->
 
+
+---
+
+# Azure Function Code Examples
+
+<v-clicks>
+
+### build.gradle.kts in Azure infrastructure module:
+
+```kotlin
+implementation("org.springframework.cloud:spring-cloud-function-adapter-azure:4.2.2")
+```
+
+### Azure function
+
+```kotlin {all|1,3-9,11}
+@FunctionName("RequestForwarder")
+fun forwardClientRequest(
+    @HttpTrigger(
+        methods = [HttpMethod.POST, HttpMethod.GET, HttpMethod.PATCH, HttpMethod.PUT, HttpMethod.DELETE],
+        authLevel = AuthorizationLevel.FUNCTION,
+        name = "request", route = "mocknest/{*route}"
+    ) request: HttpRequestMessage<String>,
+    context: ExecutionContext,
+): HttpResponseMessage {
+    return buildResponse(request)
+}
+```
+
+</v-clicks>
+
+<!-- 
+- 2mins
+-->
+
+---
+
+# Terraform CDK - Azure example
+
+```kotlin {all|11}
+val functionApp = LinuxFunctionApp(
+    this, "SpringCloudExampleFunctionApp",
+    LinuxFunctionAppConfig.builder()
+        .name("spring-clean-architecture-fun")
+        // fun settings
+        .siteConfig(
+           // site config   
+        )
+        .appSettings(
+            mapOf(
+                "MAIN_CLASS" to "com.example.clean.architecture.Application",
+            )
+        )
+        .build()
+)
+
+```
+
+<!--
+- 1 min
+-->
+
 ---
 
 # AWS Lambda Code Examples
@@ -245,67 +307,6 @@ fun router(): Function<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent
 - 1 min
 - call AWS and Azure
 - Insure to include spring cloud function adapter in infrastructure layer dependencies.
--->
-
----
-
-# Azure Function Code Examples
-
-<v-clicks>
-
-### build.gradle.kts in Azure infrastructure module:
-
-```kotlin
-implementation("org.springframework.cloud:spring-cloud-function-adapter-azure:4.2.2")
-```
-
-### Azure function
-
-```kotlin {all|1,3-9,11}
-@FunctionName("RequestForwarder")
-fun forwardClientRequest(
-    @HttpTrigger(
-        methods = [HttpMethod.POST, HttpMethod.GET, HttpMethod.PATCH, HttpMethod.PUT, HttpMethod.DELETE],
-        authLevel = AuthorizationLevel.FUNCTION,
-        name = "request", route = "mocknest/{*route}"
-    ) request: HttpRequestMessage<String>,
-    context: ExecutionContext,
-): HttpResponseMessage {
-    return buildResponse(request)
-}
-```
-
-</v-clicks>
-
-<!-- 
-- 2mins
--->
-
----
-
-# Terraform CDK - Azure example
-
-```kotlin {all|11}
-val functionApp = LinuxFunctionApp(
-    this, "SpringCloudExampleFunctionApp",
-    LinuxFunctionAppConfig.builder()
-        .name("spring-clean-architecture-fun")
-        // fun settings
-        .siteConfig(
-           // sit config   
-        )
-        .appSettings(
-            mapOf(
-                "MAIN_CLASS" to "com.example.clean.architecture.Application",
-            )
-        )
-        .build()
-)
-
-```
-
-<!--
-- 1 min
 -->
 
 ---
