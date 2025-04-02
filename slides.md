@@ -326,7 +326,7 @@ We’re going to upgrade it.
       :initial="{ x: 800 }"
       :enter="final"
       class="absolute top-0 left-0 right-0 bottom-0"
-      src="https://cdn-4.motorsport.com/images/amp/63vxMQEY/s1000/formula-1-red-bull-racing-laun-2.jpg"
+      src="/F1Car.jpg"
     />
   </div>
 
