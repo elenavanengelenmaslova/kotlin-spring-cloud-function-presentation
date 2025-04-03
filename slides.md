@@ -218,7 +218,7 @@ fun forwardClientRequest(
 
 ---
 
-# Terraform CDK - Azure example
+# Terraform CDK - Azure Functions example
 
 ```kotlin {all|11}
 val functionApp = LinuxFunctionApp(
@@ -278,7 +278,7 @@ fun router(): Function<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent
 
 ---
 
-# Terraform CDK - AWS example
+# Terraform CDK - AWS Lambda example
 
 ```kotlin {all|5,14,15}
  LambdaFunction(
