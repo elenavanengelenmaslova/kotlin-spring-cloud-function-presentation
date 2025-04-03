@@ -70,8 +70,7 @@ transition: fade-out
 ---
 
 # Clean Architecture for Serverless
-
-<v-clicks>
+## Overview
 
 - 🌱 **Spring Cloud Function**
 
@@ -80,8 +79,7 @@ transition: fade-out
 - 🌐 **Deployment & Terraform CDK**
 
 - 🗝️ **Key Takeaways + Q&A**
-  
-</v-clicks>
+
 
 <br>
 <br>
@@ -383,6 +381,23 @@ Then we’ll live-code how to use Clean Architecture with Spring Cloud Function 
 -->
 
 ---
+
+## Solution Design
+
+<br>
+
+<img src="/SolutionDesign.png" alt="Solution Design" class="max-w-[60%] max-h-[60vh] object-contain mx-auto" />
+
+<!-- 
+
+- 1 mins
+(Call Azure)
+
+So wer are not using a Hello world, however the use case is still simple, we hve some business logic which requires some persistence, and we are using a cloud specific service for this persistence. In AWS we will use S3, and in Azure we are using Blob Storage. These are exactly what we need to store our mock configuration.
+-->
+
+
+---
 class: flex flex-col justify-center items-center h-[100vh] space-y-4
 ---
 
@@ -459,24 +474,6 @@ dependencies {
     implementation(project(":domain"))
 }
 ```
-
----
-
-
-## Solution Design
-
-<br>
-
-<img src="/SolutionDesign.png" alt="Solution Design" class="max-w-[60%] max-h-[60vh] object-contain mx-auto" />
-
-<!-- 
-
-- 1 mins
-(Call Azure)
-
-So wer are not using a Hello world, however the use case is still simple, we hve some business logic which requires some persistence, and we are using a cloud specific service for this persistence. In AWS we will use S3, and in Azure we are using Blob Storage. These are exactly what we need to store our mock configuration.
--->
-
 
 ---
 preload: false
